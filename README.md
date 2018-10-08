@@ -21,4 +21,4 @@ x = np.linspace(0,10)
 nq.plot(np.sin(x))
 nq.show()
 ```
-See the example.py file.
+See also the "example.py" file.
