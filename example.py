@@ -1,13 +1,15 @@
 import numpy as np
 import nicenquickplotlib as nq
 
+nq.default_fig_width = 200e-3 # Change the default figure width.
+
 x1 = np.linspace(0,6)
 x2 = np.linspace(1,5,10)
 y1 = x1**2
 y2 = np.sin(x1)
 y3 = np.sqrt(x1)
 
-nq.plot(y1) # Nice and quick plot!
+nq.plot(y1) # Nice and quick plot with a nice grid.
 
 figure_1 = nq.plot(x1, y1, title='I dont like this title') # Add a title.
 figure_1.title = 'I like this title' # Change the title.
