@@ -29,9 +29,15 @@ class Figure:
 	__title : str
 		The title of the figure.
 	fig : matplotlib figure
-		The actual figure object of the matplotlib package.
+		The actual figure object of the matplotlib package. You can call
+		any of the "official matplotlib" methods of figures.
 	axes : list
-		A list with the axis objects in the figure.
+		A list with the axis objects in the figure. You can access all
+		axes objects in the current figure and use any of the "official
+		matplotlib" methods to modofy them. For example:
+		
+		my_fig = nicenquickplotlib.plot(data)
+		my_fig.axes[0].set_xscale('log')
 	"""
 	
 	def __init__(self, fig, axes):
@@ -58,7 +64,8 @@ class Figure:
 		self.__title = title
 		self.fig.suptitle(title)
 	
-def plot(x, y=None, xlabel=None, ylabel=None, data_labels=None, title=None, together=True, *args, **kwargs):
+def plot(x, y=None, xlabel=None, ylabel=None, data_labels=None, title=None, 
+	together=True, xscale='', yscale='', *args, **kwargs):
 	"""This is the function you have to use to produce a nice and quick plot.
 	
 	Arguments
@@ -85,6 +92,17 @@ def plot(x, y=None, xlabel=None, ylabel=None, data_labels=None, title=None, toge
 		If together is False then each set of data is plotted in a different
 		subplot. Note that all the subplots will share the same x axis.
 		Default value is True.
+	xscale : string, optional
+		'l' means linear.
+		'L' means log.
+	yscale : string, optional
+		See 'xscale' for reference. If multiple subplots are configured
+		then 'yscale' can be a string containing one character for each
+		of the subplots. For example
+		
+		niceandquickplotlib.plot(x, [y1,y2], yscale='Ll')
+		
+		will produce a log scale for y1 and a linear scale for y2.
 	
 	Returns
 	-------
@@ -139,9 +157,24 @@ def plot(x, y=None, xlabel=None, ylabel=None, data_labels=None, title=None, toge
 				axes[k].set_ylabel(ylabel)
 		if xlabel != None:
 			axes[-1].set_xlabel(xlabel)
+		if len(yscale) > k:
+			if yscale[k] is 'l':
+				axes[k].set_yscale('linear')
+			if yscale[k] is 'L':
+				axes[k].set_yscale('log')
+			
+	if 'l' in xscale:
+		axes[0].set_xscale('linear')
+	if 'L' in xscale:
+		axes[0].set_xscale('log')
+	if len(yscale) == 1:
+		for k in range(len(axes)):
+			if yscale[0] is 'l':
+				axes[k].set_yscale('linear')
+			if yscale[0] is 'L':
+				axes[k].set_yscale('log')
 	
 	return current_fig
-	
 	
 def show():
 	"""This is the same as 'plt.show()'"""
@@ -184,5 +217,4 @@ def save_all(timestamp=False, mkdir=True):
 		file_name += '.' + default_file_format
 		file_name = file_name.replace(' ','_').lower()
 		
-		__figs_list[k].fig.savefig(file_name, dpi=default_dpi_rasterization)
-
+		__figs_list[k].fig.savefig(file_name, dpi=default_dpi_rasterization, bbox_inches='tight')
