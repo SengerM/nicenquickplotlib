@@ -15,13 +15,34 @@ def default_grid(ax):
 	ax.grid(b=True, which='major', color='#000000', alpha=0.3, linestyle='-', linewidth=0.5)
 	ax.grid(b=True, which='minor', color='#000000', alpha=0.15, linestyle='-', linewidth=0.25)
 	ax.minorticks_on() # Enables minor ticks without text, only the ticks.
-# ----------------------------------
+# Do not touch this ----------------
 __figs_list = []
 __session_timestamp = timestamp.get_timestamp()
 # ----------------------------------
 
 class Figure:
+	"""This class is the main container of the figures created using 
+	nicenquickplotlib.
+	
+	Attributes
+	----------
+	__title : str
+		The title of the figure.
+	fig : matplotlib figure
+		The actual figure object of the matplotlib package.
+	axes : list
+		A list with the axis objects in the figure.
+	"""
+	
 	def __init__(self, fig, axes):
+		"""
+		Parameters
+		----------
+		fig : matplotlib figure
+			The actual figure object of the matplotlib package.
+		axes : list
+			A list with the axis objects in the figure.
+		"""
 		self.__title = ''
 		self.fig = fig
 		self.axes = axes
@@ -38,6 +59,39 @@ class Figure:
 		self.fig.suptitle(title)
 	
 def plot(x, y=None, xlabel=None, ylabel=None, data_labels=None, title=None, together=True, *args, **kwargs):
+	"""This is the function you have to use to produce a nice and quick plot.
+	
+	Arguments
+	---------
+	x : numpy array
+		If 'y' is not provided, the 'x' argument must be a numpy array
+		containing the data to plot or a list of numpy arrays to plot.
+		In this case the data in 'x' is ploted in the y axis and the x
+		axis is the number of element in the array.
+	y : numpy array or list of numpy arrays, optional
+		y values to plot. 
+	xlabel : string, optional
+		String containing the label for the x axis.
+	ylabel : string or list of strings, optional
+		String or list of strings containing the labels for the y axes.
+	data_labels : string or list of strings, optional
+		Labels to be put in the legend. Passing data_labels automatically
+		enables the legend.
+	title : string, optional
+		Title of the figure.
+	together : bool, optional
+		If together is True then only one plot is placed in the figure
+		and all data is plotted in this plot.
+		If together is False then each set of data is plotted in a different
+		subplot. Note that all the subplots will share the same x axis.
+		Default value is True.
+	
+	Returns
+	-------
+	Figure
+		A nicenquickplotlib type Figure object.
+	"""
+	
 	xx = [] # This is what will actually be plotted.
 	yy = [] # This is what will actually be plotted.
 	
@@ -90,9 +144,27 @@ def plot(x, y=None, xlabel=None, ylabel=None, data_labels=None, title=None, toge
 	
 	
 def show():
+	"""This is the same as 'plt.show()'"""
 	plt.show()
 
 def save_all(timestamp=False, mkdir=True):
+	"""Calling this function will save all plots created with 
+	nicenquickplotlib
+	
+	Arguments
+	---------
+	timestamp : bool, optional
+		If true then all file names will be identified with one (and the
+		same) timestamp. This is usefull when you want not to overwrite
+		the plots each time you run your code.
+		Default value is False.
+	mkdir : bool, optional
+		If true then a directory will be created (with name specified
+		by the 'default_save_directory' variable) and all figures will
+		be saved in there. If fallse all figures will be saved in the 
+		current working directory.
+		Default value is True.
+	"""
 	for k in range(len(__figs_list)):
 		file_name = ""
 		if mkdir is True:
