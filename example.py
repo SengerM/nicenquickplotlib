@@ -21,6 +21,8 @@ nq.plot(x, [y1, y2, y3], ylabel=['Label 1','Label 2', 'Label 3'], together=False
 nq.plot(x, [y1, y2, y3], xscale='L', xlabel='Log scale')
 nq.plot(x, [y1, y2, y3], together=False, yscale='L', ylabel='Log scale')
 nq.plot(x, [y1, y2, y3], together=False, yscale='llL', ylabel=['Lin scale', 'Lin scale', 'Log scale'])
+I_want_log_axes = nq.plot(x, [y1, y2, y3], together=False, ylabel=['Lin scale', 'Log scale', 'Lin scale'])
+I_want_log_axes.axes[1].set_yscale('log') # You can use the matplotlib methods too!
 
 nq.save_all() # Save all your plots!
 # ~ nq.show()
