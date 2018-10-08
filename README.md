@@ -7,7 +7,7 @@ This package contains a set of functions to help the user to produce nice plots 
 pip3 install git+https://github.com/SengerM/nicenquickplotlib.git
 
 ## Usage
-```
+```Python
 import nicenquickplotlib as nq
 import numpy as np
 x = np.linspace(0,10)
