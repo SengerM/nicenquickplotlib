@@ -67,7 +67,7 @@ class Figure:
 		self.__title = title
 		self.fig.suptitle(title)
 	
-def plot(x, y=None, xlabel=None, ylabel=None, data_labels=None, title=None, 
+def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None, 
 	together=True, xscale='', yscale='', *args, **kwargs):
 	"""This is the function you have to use to produce a nice and quick plot.
 	
@@ -89,7 +89,7 @@ def plot(x, y=None, xlabel=None, ylabel=None, data_labels=None, title=None,
 		String containing the label for the x axis.
 	ylabel : string or list of strings, optional
 		String or list of strings containing the labels for the y axes.
-	data_labels : string or list of strings, optional
+	legend : string or list of strings, optional
 		Labels to be put in the legend. Passing data_labels automatically
 		enables the legend.
 	title : string, optional
@@ -145,6 +145,21 @@ def plot(x, y=None, xlabel=None, ylabel=None, data_labels=None, title=None,
 	else:
 		raise ValueError('"y" must be a numpy array with data, or a list containing numpy arrays')
 	
+	if not legend is None:
+		if isinstance(legend, str):
+			if len(yy) == 1:
+				legend = [legend]
+			else:
+				if len(yy) > 1:
+					temp = legend
+					legend = []
+					for k in range(len(yy)):
+						legend.append(temp)
+		elif isinstance(legend, list):
+			if len(legend) != len(yy):
+				raise ValueError('Number of legend must be equal to number of "y" datasets')
+		else:
+			raise ValueError('Cannot recognize "legend" object')
 	
 	if together is False:
 		f, ax = plt.subplots(len(yy), sharex=True, figsize=(default_fig_width*default_fig_ratio[0]/25.4e-3, default_fig_width*default_fig_ratio[1]/25.4e-3))
@@ -163,8 +178,11 @@ def plot(x, y=None, xlabel=None, ylabel=None, data_labels=None, title=None,
 	for k in range(len(yy)):
 		axes[k].plot(xx[k], yy[k], color=default_colors[k], *args, **kwargs)
 		default_grid(axes[k])
-		if data_labels != None:
-			axes[k].legend()
+		if not legend is None:
+			if together is True:
+				axes[k].legend(legend)
+			else:
+				axes[k].legend([legend[k]])
 		if ylabel is not None:
 			if isinstance(ylabel, list):
 				axes[k].set_ylabel(ylabel[k])
