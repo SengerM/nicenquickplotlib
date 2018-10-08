@@ -30,4 +30,4 @@ I_want_log_axes = nq.plot(x, [y1, y2, y3], together=False, ylabel=['Lin scale', 
 I_want_log_axes.axes[1].set_yscale('log') # You can use the matplotlib methods too!
 
 nq.save_all() # Save all your plots!
-# ~ nq.show()
+# ~ nq.show() # Uncomment this to show all plots.
