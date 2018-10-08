@@ -72,9 +72,14 @@ def plot(x, y=None, xlabel=None, ylabel=None, data_labels=None, title=None,
 	---------
 	x : numpy array
 		If 'y' is not provided, the 'x' argument must be a numpy array
-		containing the data to plot or a list of numpy arrays to plot.
-		In this case the data in 'x' is ploted in the y axis and the x
-		axis is the number of element in the array.
+		containing the data or a list of numpy arrays to plot. In this 
+		case the data in 'x' is ploted in the y axis and the x
+		axis is the "number of element in the array".
+		If 'y' data is providen then:
+			1) If 'x' is a numpy array it is used to plot all 'y' data
+			sets.
+			2) If 'x' is a list of numpy arrays each is used with each
+			'y' data set.
 	y : numpy array or list of numpy arrays, optional
 		y values to plot. 
 	xlabel : string, optional
@@ -121,14 +126,19 @@ def plot(x, y=None, xlabel=None, ylabel=None, data_labels=None, title=None,
 		for k in range(len(yy)):
 			xx.append(np.arange(len(yy[k])))
 	elif isinstance(y, np.ndarray):
+		if not isinstance(x, np.ndarray):
+			raise ValueError('I have received a numpy array with "y" data but "x" data is not a numpy array')
 		xx.append(x)
 		yy.append(y)
 	elif isinstance(y, list):
 		yy = y
-		if not isinstance(x, np.ndarray):
-			raise ValueError('"x" data must be providen in a numpy array')
-		for k in range(len(yy)):
-			xx.append(x)
+		if isinstance(x, list):
+			if len(y) != len(x):
+				raise ValueError('Different number of data sets received with "x" data and "y" data')
+			xx = x
+		if isinstance(x, np.ndarray):
+			for k in range(len(yy)):
+				xx.append(x)
 	else:
 		raise ValueError('"y" must be a numpy array with data, or a list containing numpy arrays')
 	
@@ -139,13 +149,15 @@ def plot(x, y=None, xlabel=None, ylabel=None, data_labels=None, title=None,
 		axes = ax
 	else:
 		f, ax = plt.subplots(1, figsize=(default_fig_width*default_fig_ratio[0]/25.4e-3, default_fig_width*default_fig_ratio[1]/25.4e-3))
-		axes = [ax]
+		axes = []
+		for k in range(len(yy)):
+			axes.append(ax)
 	
 	current_fig = Figure(f, axes)
 	__figs_list.append(current_fig)
 	current_fig.title = title
 	
-	for k in range(len(axes)):
+	for k in range(len(yy)):
 		axes[k].plot(xx[k], yy[k], color=default_colors[k], *args, **kwargs)
 		default_grid(axes[k])
 		if data_labels != None:
