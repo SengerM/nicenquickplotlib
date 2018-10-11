@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
 	name="nicenquickplotlib",
-	version="0.0.1",
+	version="0.0.2",
 	author="Matias Senger",
 	author_email="m.senger@hotmail.com",
 	description="Package to produce nice plots quickly using matplotlib",
