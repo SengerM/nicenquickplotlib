@@ -1,10 +1,10 @@
 # Nice 'n quick plot lib
 
-This package contains a set of functions that help the user to produce nice plots very quickly and without having to worry about formatting. The idea is that each call to "plot" produces one new figure that will be ready to save. The package automatically keeps track of all the figures and then you can do what you usually want with just one line: save all your figures just calling "save_all" function.
+This package contains a set of functions that help the user to produce nice plots very quickly and without having to worry about formatting. The idea is that each call to ```plot``` produces one new figure that will be ready to save. The package automatically keeps track of all the figures and then you can do what you usually want to with just one line: save all your figures just calling ```save_all``` function. The ```save_all``` function also allows to save a CSV file containing the data ploted. This means that if you are in the lab taking measurements, you can use *nicenquickplotlib* to plot and save your data with the same command. Great, huh?
 
 There are a set of "default configuration parameters" that can be modified in order to control things such as the default size of all figures, the default colors, etc. In the future the plan is to allow the user to define "custom presets".
 
-Nice and quick plot lib uses Matplotlib to produce the plots. The nicenquickplotlib figures are stored in a self defined class called ```Figure```. You can access to any of the matplotlib objects through ```Figure.fig``` and ```Figure.axes```.
+Nice and quick plot lib uses Matplotlib to produce the plots. The *nicenquickplotlib* figures are stored in a self defined class called ```Figure```. You can access to any of the matplotlib objects through ```Figure.fig``` and ```Figure.axes```.
 
 ## Instalation
 - Python 2
