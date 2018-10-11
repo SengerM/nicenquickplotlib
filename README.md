@@ -35,3 +35,29 @@ nq.plot(x1, [np.sin(x1), np.sqrt(x1), np.cos(x1)], ylabel=['Label 1','Label 2', 
 nq.save_all(csv=True) # Wow! You can save all your plots (and csv data files) with just one line! This is amazing!
 ```
 See also the "example.py" file.
+
+### Important usage tips
+
+- Currently *nicenquickplotlib* only supports plotting numpy arrays. This means that **the data you pass to the ```plot``` function must be stored in numpy arrays**.
+- If multiple data sets are to be plotted in the same figure, then ```plot``` expects a list of numpy arrays, but **not a bidimensional numpy array (not a numpy matrix)**. For example:
+```Python
+xdata_list = [1,2,3,4] # This is a list! And its currently unsoported.
+xdata_np = np.array(xdata_list) # Now it was converted into a numpy array.
+ydata_1 = np.array([1,2,3,4])
+ydata_2 = np.array([1,3,5,7])
+y_list = [ydata_1, ydata_2] # This is a list of numpy arrays, and it is what we want.
+y_wrong = np.array([ydata_1, ydata_2]) # This is a "numpy matrix" and we don't want this!
+```
+If we call the ```plot``` function we should expect what follows:
+```Python
+plot(xdata_list, ydata_1) # Error because x data is a list.
+plot(xdata_np, ydata_1) # This sould work fine.
+plot(xdata_np, y_list) # This should work because y_list is a list of numpy arrays.
+plot(xdata_np, y_wrong) # This should not work.
+plot(xdata_np, [[1,2,3,4],[1,3,5,7]]) # This should not work because y data  is a list of lists.
+```
+
+## Future plans
+- Include plotting with error bars in a *nice and quick approach*.
+- Implement the custom user preset feauture so you can configure your plots as you like in a *nice and quick approach*.
+- Give support for plotting with measurement units (maybe using *pint* package) in a *nice and quick approach*.
