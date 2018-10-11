@@ -188,7 +188,7 @@ def save_all(timestamp=False, mkdir=True, csv=False):
 		if timestamp is True:
 			file_name += __session_timestamp + '_'
 		if __figs_list[k].title is '':
-			file_name += str(k+1) + '_'
+			file_name += 'plot' + str(k+1)
 		else:
 			file_name += __figs_list[k].title
 		file_name = file_name.replace(' ','_').lower()
@@ -197,4 +197,4 @@ def save_all(timestamp=False, mkdir=True, csv=False):
 		
 		if csv is True:
 			for l in range(len(__figs_list[k].ydata)):
-				np.savetxt(directory + '/' + file_name + 'dataset_number_' + str(l) + '.csv', np.array([__figs_list[k].xdata[l],__figs_list[k].ydata[l]]).transpose())
+				np.savetxt(directory + '/' + file_name + '_' + 'dataset' + str(l+1) + '.csv', np.array([__figs_list[k].xdata[l],__figs_list[k].ydata[l]]).transpose())
