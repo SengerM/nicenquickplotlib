@@ -12,6 +12,6 @@ nq.plot([y1,y2,y3])
 nq.plot(x1, y1)
 nq.plot(x1, [y1,y2,y3])
 nq.plot([x1,x2], [np.sin(x1), np.sin(x2)], marker='.')
-nq.plot([x1,x2], [np.sin(x1), np.sin(x2)], together=False, marker='.')
+nq.plot([x1,x2], [np.sin(x1), np.sin(x2)], together=False, marker='.', title='My beautifull plot')
 
 nq.save_all(csv=True, timestamp=True)
