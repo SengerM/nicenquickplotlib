@@ -63,7 +63,7 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 	
 	xx = [] # This is what will actually be plotted.
 	yy = [] # This is what will actually be plotted.
-	
+	# Validation of data ---------------
 	if y is None:
 		if isinstance(x, np.ndarray): # This means there is only one data set to plot. Otherwise I would expect a list of numpy arrays.
 			yy.append(x);
@@ -87,7 +87,6 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 				xx.append(x)
 	else:
 		raise ValueError('"y" must be a numpy array with data, or a list containing numpy arrays')
-	
 	if not legend is None:
 		if isinstance(legend, str):
 			if len(yy) == 1:
@@ -103,7 +102,7 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 				raise ValueError('Number of legend must be equal to number of "y" datasets')
 		else:
 			raise ValueError('Cannot recognize "legend" object')
-	
+	# Create the matplotlib objects ----------------------
 	if together is False:
 		f, ax = plt.subplots(len(yy), sharex=True, figsize=(default_fig_width*default_fig_ratio[0]/25.4e-3, default_fig_width*default_fig_ratio[1]/25.4e-3))
 		f.subplots_adjust(hspace=default_hspace)
@@ -113,11 +112,13 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 		axes = []
 		for k in range(len(yy)):
 			axes.append(ax)
-	
+	# Create the Figure object for the current figure ----
 	current_fig = Figure(f, axes)
 	__figs_list.append(current_fig)
 	current_fig.title = title
-	
+	current_fig.xdata = xx
+	current_fig.ydata = yy
+	# Plot -----------------------------------------------
 	for k in range(len(yy)):
 		axes[k].plot(xx[k], yy[k], color=default_colors[k], *args, **kwargs)
 		default_grid(axes[k])
@@ -138,7 +139,6 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 				axes[k].set_yscale('linear')
 			if yscale[k] is 'L':
 				axes[k].set_yscale('log')
-			
 	if 'l' in xscale:
 		axes[0].set_xscale('linear')
 	if 'L' in xscale:
@@ -149,14 +149,13 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 				axes[k].set_yscale('linear')
 			if yscale[0] is 'L':
 				axes[k].set_yscale('log')
-	
 	return current_fig
 	
 def show():
 	"""This is the same as 'plt.show()'"""
 	plt.show()
 
-def save_all(timestamp=False, mkdir=True):
+def save_all(timestamp=False, mkdir=True, csv=False):
 	"""Calling this function will save all plots created with 
 	nicenquickplotlib
 	
@@ -173,24 +172,29 @@ def save_all(timestamp=False, mkdir=True):
 		be saved in there. If fallse all figures will be saved in the 
 		current working directory.
 		Default value is True.
+	csv : bool, optional
+		If true then a csv file is created along with each image file 
+		containing the data that is plotted.
 	"""
+	if mkdir is True:
+		if timestamp is False:
+			directory = default_save_directory
+		else:
+			directory = __session_timestamp
+		if not os.path.exists(directory):
+			os.makedirs(directory)
 	for k in range(len(__figs_list)):
-		file_name = ""
-		if mkdir is True:
-			if timestamp is False:
-				directory = default_save_directory
-			else:
-				directory = __session_timestamp
-			if not os.path.exists(directory):
-				os.makedirs(directory)
-			file_name += directory + '/'
+		file_name = ''
 		if timestamp is True:
 			file_name += __session_timestamp + '_'
 		if __figs_list[k].title is '':
 			file_name += str(k+1) + '_'
 		else:
 			file_name += __figs_list[k].title
-		file_name += '.' + default_file_format
 		file_name = file_name.replace(' ','_').lower()
 		
-		__figs_list[k].fig.savefig(file_name, dpi=default_dpi_rasterization, bbox_inches='tight')
+		__figs_list[k].fig.savefig(directory + '/' + file_name + '.' + default_file_format, dpi=default_dpi_rasterization, bbox_inches='tight')
+		
+		if csv is True:
+			for l in range(len(__figs_list[k].ydata)):
+				np.savetxt(directory + '/' + file_name + 'dataset_number_' + str(l) + '.csv', np.array([__figs_list[k].xdata[l],__figs_list[k].ydata[l]]).transpose())
