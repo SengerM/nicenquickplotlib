@@ -197,4 +197,4 @@ def save_all(timestamp=False, mkdir=True, csv=False):
 		
 		if csv is True:
 			for l in range(len(__figs_list[k].ydata)):
-				np.savetxt(directory + '/' + file_name + '_' + 'dataset' + str(l+1) + '.csv', np.array([__figs_list[k].xdata[l],__figs_list[k].ydata[l]]).transpose())
+				np.savetxt(directory + '/' + file_name + '_' + 'dataset' + str(l+1) + '.csv', np.array([__figs_list[k].xdata[l],__figs_list[k].ydata[l]]).transpose(), header='x\ty')

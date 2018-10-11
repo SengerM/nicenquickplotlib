@@ -68,4 +68,3 @@ class Figure:
 		if not isinstance(ydata, list):
 			raise ValueError('ydata must be a list')
 		self.__ydata = ydata
-	
