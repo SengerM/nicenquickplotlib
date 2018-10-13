@@ -59,5 +59,5 @@ plot(xdata_np, [[1,2,3,4],[1,3,5,7]]) # This should not work because y data  is 
 
 ## Future plans
 - Include plotting with error bars in a *nice and quick approach*.
-- Implement the custom user preset feauture so you can configure your plots as you like in a *nice and quick approach*.
+- Implement the custom user preset feauture so you can configure your plots as you like in a *nice and quick approach*. First working version is ready! See the "test_all_all.py" script.
 - Give support for plotting with measurement units (maybe using *pint* package) in a *nice and quick approach*.
