@@ -10,6 +10,8 @@ __figs_list = []
 __session_timestamp = timestamp.get_timestamp()
 # ----------------------------------
 
+default_fig_style = FigStyle()
+
 def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None, 
 	together=True, xscale='', yscale='', *args, **kwargs):
 	"""This is the function you have to use to produce a nice and quick plot.
@@ -104,11 +106,11 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 			raise ValueError('Cannot recognize "legend" object')
 	# Create the matplotlib objects ----------------------
 	if together is False:
-		f, ax = plt.subplots(len(yy), sharex=True, figsize=(default_fig_width*default_fig_ratio[0]/25.4e-3, default_fig_width*default_fig_ratio[1]/25.4e-3))
-		f.subplots_adjust(hspace=default_hspace)
+		f, ax = plt.subplots(len(yy), sharex=True, figsize=(default_fig_style.width*default_fig_style.ratio[0]/25.4e-3, default_fig_style.width*default_fig_style.ratio[1]/25.4e-3))
+		f.subplots_adjust(hspace=default_fig_style.hspace)
 		axes = ax
 	else:
-		f, ax = plt.subplots(1, figsize=(default_fig_width*default_fig_ratio[0]/25.4e-3, default_fig_width*default_fig_ratio[1]/25.4e-3))
+		f, ax = plt.subplots(1, figsize=(default_fig_style.width*default_fig_style.ratio[0]/25.4e-3, default_fig_style.width*default_fig_style.ratio[1]/25.4e-3))
 		axes = []
 		for k in range(len(yy)):
 			axes.append(ax)
@@ -120,7 +122,7 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 	current_fig.ydata = yy
 	# Plot -----------------------------------------------
 	for k in range(len(yy)):
-		axes[k].plot(xx[k], yy[k], color=default_colors[k], *args, **kwargs)
+		axes[k].plot(xx[k], yy[k], color=default_fig_style.colors[k], *args, **kwargs)
 		default_grid(axes[k])
 		if not legend is None:
 			if together is True:
