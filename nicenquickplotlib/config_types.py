@@ -57,13 +57,19 @@ class FigStyle:
 			except yaml.YAMLError as exc:
 				print(exc)
 		
+		if 'width' not in data:
+			raise ValueError('The "figstyle" file must have a "width" field')
 		self.__width = 	float(data['width'])
 		
+		if 'ratio' not in data:
+			raise ValueError('The "figstyle" file must have a "ratio" field')
 		if isinstance(data['ratio'], list) and len(data['ratio']) == 2 and isinstance(data['ratio'][0], Number) and isinstance(data['ratio'][1], Number):
 			self.__ratio = data['ratio']
 		else:
 			raise ValueError('Error reading "' + filename + '": ratio must be a list of two numbers [x_ratio, y_ratio]')
 		
+		if 'hspace' not in data:
+			raise ValueError('The "figstyle" file must have a "hspace" field')
 		self.__hspace = float(data['hspace'])
 		
 		if isinstance(data['colors'], list):
