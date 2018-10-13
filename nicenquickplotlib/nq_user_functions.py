@@ -2,16 +2,37 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 from . import timestamp
-from .default_configuration_params import *
+from .config_types import *
 from .figure import Figure
 
 # Do not touch this ----------------
 __figs_list = []
 __session_timestamp = timestamp.get_timestamp()
+__nq_instalation_path = os.path.dirname(os.path.abspath(__file__))
 # ----------------------------------
 
+def set_figstyle(figstyle):
+	"""Change the current figstyle.
+	
+	Examples
+	-------
+	set_figstyle('default')
+	set_figstyle('blacknwhite')
+	set_figstyle(path_to_my_figstyle_file)
+	"""
+	global __figstyle
+	if figstyle is 'default':
+		__figstyle = FigStyle(__nq_instalation_path + '/figure_styles/' + 'default.yaml')
+	elif figstyle is 'blacknwhite':
+		__figstyle = FigStyle(__nq_instalation_path + '/figure_styles/' + 'blacknwhite.yaml')
+	else:
+		raise ValueError('Not yet implemented!')
+
+set_figstyle('default')
+
+
 def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None, 
-	together=True, xscale='', yscale='', *args, **kwargs):
+	together=True, xscale='', yscale='', linestyle=None, color=None, *args, **kwargs):
 	"""This is the function you have to use to produce a nice and quick plot.
 	
 	Arguments
@@ -87,28 +108,13 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 				xx.append(x)
 	else:
 		raise ValueError('"y" must be a numpy array with data, or a list containing numpy arrays')
-	if not legend is None:
-		if isinstance(legend, str):
-			if len(yy) == 1:
-				legend = [legend]
-			else:
-				if len(yy) > 1:
-					temp = legend
-					legend = []
-					for k in range(len(yy)):
-						legend.append(temp)
-		elif isinstance(legend, list):
-			if len(legend) != len(yy):
-				raise ValueError('Number of legend must be equal to number of "y" datasets')
-		else:
-			raise ValueError('Cannot recognize "legend" object')
 	# Create the matplotlib objects ----------------------
 	if together is False:
-		f, ax = plt.subplots(len(yy), sharex=True, figsize=(default_fig_width*default_fig_ratio[0]/25.4e-3, default_fig_width*default_fig_ratio[1]/25.4e-3))
-		f.subplots_adjust(hspace=default_hspace)
+		f, ax = plt.subplots(len(yy), sharex=True, figsize=(__figstyle.width*__figstyle.ratio[0]/25.4e-3, __figstyle.width*__figstyle.ratio[1]/25.4e-3))
+		f.subplots_adjust(hspace=__figstyle.hspace)
 		axes = ax
 	else:
-		f, ax = plt.subplots(1, figsize=(default_fig_width*default_fig_ratio[0]/25.4e-3, default_fig_width*default_fig_ratio[1]/25.4e-3))
+		f, ax = plt.subplots(1, figsize=(__figstyle.width*__figstyle.ratio[0]/25.4e-3, __figstyle.width*__figstyle.ratio[1]/25.4e-3))
 		axes = []
 		for k in range(len(yy)):
 			axes.append(ax)
@@ -118,15 +124,35 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 	current_fig.title = title
 	current_fig.xdata = xx
 	current_fig.ydata = yy
+	# Configure linestyle --------------------------------
+	if linestyle is None:
+		linestyles = __figstyle.linestyles
+	elif isinstance(linestyle, str):
+		linestyles = [linestyle]
+	elif isinstance(linestyle, list):
+		linestyles = linestyle
+	# Configure colors -----------------------------------
+	if color is None:
+		colors = __figstyle.colors
+	elif isinstance(color, str):
+		colors = [color]
+	elif isinstance(color, list):
+		colors = color
 	# Plot -----------------------------------------------
 	for k in range(len(yy)):
-		axes[k].plot(xx[k], yy[k], color=default_colors[k], *args, **kwargs)
-		default_grid(axes[k])
-		if not legend is None:
+		axes[k].plot(xx[k], yy[k], color=colors[k%len(__figstyle.colors)], linestyle=linestyles[k%len(linestyles)], *args, **kwargs)
+		__figstyle.grid(axes[k])
+		# Configure legend -------------------------------
+		if legend is not None:
+			if isinstance(legend, str):
+				legend = [legend]
+			if len(legend) != len(yy):
+				raise ValueError('I have received ' + str(len(yy)) + ' data sets and ' + str(len(legend)) + ' legend labels...')
 			if together is True:
 				axes[k].legend(legend)
 			else:
 				axes[k].legend([legend[k]])
+		# ------------------------------------------------
 		if ylabel is not None:
 			if isinstance(ylabel, list):
 				axes[k].set_ylabel(ylabel[k])

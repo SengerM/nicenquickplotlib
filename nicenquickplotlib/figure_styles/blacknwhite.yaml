@@ -1,0 +1,18 @@
+# figstyle blacknwhite
+
+width: 160e-3
+
+ratio:
+ - 1
+ - .6
+
+hspace: .1
+
+colors:
+ - '#000000'
+
+linestyles:
+ - '-'
+ - '--'
+ - '-.'
+ - ':'
