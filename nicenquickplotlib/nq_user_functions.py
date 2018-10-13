@@ -22,9 +22,9 @@ def set_figstyle(figstyle):
 	"""
 	global __figstyle
 	if figstyle is 'default':
-		__figstyle = FigStyle(__nq_instalation_path + '/' + 'figure_styles/default.yaml')
+		__figstyle = FigStyle(__nq_instalation_path + '/' + 'default.yaml')
 	elif figstyle is 'blacknwhite':
-		__figstyle = FigStyle(__nq_instalation_path + '/' + 'figure_styles/blacknwhite.yaml')
+		__figstyle = FigStyle(__nq_instalation_path + '/' + 'blacknwhite.yaml')
 	else:
 		raise ValueError('Not yet implemented!')
 
