@@ -2,7 +2,7 @@ from numbers import Number
 import yaml
 
 def hex2rgb(hexstr):
-	""" Converts a hex "#rrggbb" color string code to a tuble of (r,g,b) """
+	"""Converts a hex "#rrggbb" color string code to a tuble of (r,g,b)"""
 	if not isinstance(hexstr, str):
 		raise ValueError('I was expecting a string with the hex code color')
 	if hexstr[0] is not '#':
@@ -10,21 +10,24 @@ def hex2rgb(hexstr):
 	if len(hexstr) is not 7:
 		raise ValueError('Invalid hex color code: length of the string code is not 7')
 	hexstr = hexstr[1:]
-	return tuple(int(hexstr[i:i+2], 16)/255 for i in (0, 2 ,4))
+	return tuple(int(hexstr[i:i+2], 16)/255 for i in (0, 2 ,4)) # Taken from https://stackoverflow.com/a/29643643/8849755
 
 def __default_grid__(ax):
+	"""This is a temporary function"""
 	ax.grid(b=True, which='major', color='#000000', alpha=0.3, linestyle='-', linewidth=0.5)
 	ax.grid(b=True, which='minor', color='#000000', alpha=0.15, linestyle='-', linewidth=0.25)
 	ax.minorticks_on() # Enables minor ticks without text, only the ticks.
 
 class FigStyle:
-	def __init__(self):
-		self.__colors = None
+	def __init__(self, config_file):
 		self.__width = None
 		self.__ratio = None
 		self.__hspace = None
+		self.__colors = [None]
+		self.__linestyles = [None]
 		self.__grid = __default_grid__
-		self.read_config_file('/home/alf/nicenquickplotlib/nicenquickplotlib/figure_styles/default.yaml')
+		
+		self.read_config_file(config_file) # This is what actually initializes the values.
 	
 	@property
 	def colors(self):
@@ -41,6 +44,9 @@ class FigStyle:
 	@property
 	def grid(self):
 		return self.__grid
+	@property
+	def linestyles(self):
+		return self.__linestyles
 	
 	def read_config_file(self, filename):
 		if not isinstance(filename, str):
@@ -64,6 +70,10 @@ class FigStyle:
 			self.__colors = [None]*len(data['colors'])
 			for k in range(len(data['colors'])):
 				self.__colors[k] = hex2rgb(data['colors'][k])
+		
+		if 'linestyles' in data:
+			if isinstance(data['linestyles'], list):
+				self.__linestyles = data['linestyles']
 
 default_file_format = 'png'
 default_save_directory = 'figures'

@@ -10,10 +10,12 @@ __figs_list = []
 __session_timestamp = timestamp.get_timestamp()
 # ----------------------------------
 
-default_fig_style = FigStyle()
+default_figstyle_file = '/home/alf/nicenquickplotlib/nicenquickplotlib/figure_styles/blacknwhite.yaml'
+
+default_figstyle = FigStyle(default_figstyle_file)
 
 def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None, 
-	together=True, xscale='', yscale='', *args, **kwargs):
+	together=True, xscale='', yscale='', linestyle=None, color=None, *args, **kwargs):
 	"""This is the function you have to use to produce a nice and quick plot.
 	
 	Arguments
@@ -106,11 +108,11 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 			raise ValueError('Cannot recognize "legend" object')
 	# Create the matplotlib objects ----------------------
 	if together is False:
-		f, ax = plt.subplots(len(yy), sharex=True, figsize=(default_fig_style.width*default_fig_style.ratio[0]/25.4e-3, default_fig_style.width*default_fig_style.ratio[1]/25.4e-3))
-		f.subplots_adjust(hspace=default_fig_style.hspace)
+		f, ax = plt.subplots(len(yy), sharex=True, figsize=(default_figstyle.width*default_figstyle.ratio[0]/25.4e-3, default_figstyle.width*default_figstyle.ratio[1]/25.4e-3))
+		f.subplots_adjust(hspace=default_figstyle.hspace)
 		axes = ax
 	else:
-		f, ax = plt.subplots(1, figsize=(default_fig_style.width*default_fig_style.ratio[0]/25.4e-3, default_fig_style.width*default_fig_style.ratio[1]/25.4e-3))
+		f, ax = plt.subplots(1, figsize=(default_figstyle.width*default_figstyle.ratio[0]/25.4e-3, default_figstyle.width*default_figstyle.ratio[1]/25.4e-3))
 		axes = []
 		for k in range(len(yy)):
 			axes.append(ax)
@@ -120,10 +122,24 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 	current_fig.title = title
 	current_fig.xdata = xx
 	current_fig.ydata = yy
+	# Configure linestyle --------------------------------
+	if linestyle is None:
+		linestyles = default_figstyle.linestyles
+	elif isinstance(linestyle, str):
+		linestyles = [linestyle]
+	elif isinstance(linestyle, list):
+		linestyles = linestyle
+	# Configure colors -----------------------------------
+	if color is None:
+		colors = default_figstyle.colors
+	elif isinstance(color, str):
+		colors = [color]
+	elif isinstance(color, list):
+		colors = color
 	# Plot -----------------------------------------------
 	for k in range(len(yy)):
-		axes[k].plot(xx[k], yy[k], color=default_fig_style.colors[k], *args, **kwargs)
-		default_fig_style.grid(axes[k])
+		axes[k].plot(xx[k], yy[k], color=colors[k%len(default_figstyle.colors)], linestyle=linestyles[k%len(linestyles)], *args, **kwargs)
+		default_figstyle.grid(axes[k])
 		if not legend is None:
 			if together is True:
 				axes[k].legend(legend)
