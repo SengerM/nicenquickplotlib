@@ -22,9 +22,9 @@ def set_figstyle(figstyle):
 	"""
 	global __figstyle
 	if figstyle is 'default':
-		__figstyle = FigStyle(__nq_instalation_path + '/' + 'default.yaml')
+		__figstyle = FigStyle(__nq_instalation_path + '/figure_styles/' + 'default.yaml')
 	elif figstyle is 'blacknwhite':
-		__figstyle = FigStyle(__nq_instalation_path + '/' + 'blacknwhite.yaml')
+		__figstyle = FigStyle(__nq_instalation_path + '/figure_styles/' + 'blacknwhite.yaml')
 	else:
 		raise ValueError('Not yet implemented!')
 
@@ -108,21 +108,6 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 				xx.append(x)
 	else:
 		raise ValueError('"y" must be a numpy array with data, or a list containing numpy arrays')
-	if not legend is None:
-		if isinstance(legend, str):
-			if len(yy) == 1:
-				legend = [legend]
-			else:
-				if len(yy) > 1:
-					temp = legend
-					legend = []
-					for k in range(len(yy)):
-						legend.append(temp)
-		elif isinstance(legend, list):
-			if len(legend) != len(yy):
-				raise ValueError('Number of legend must be equal to number of "y" datasets')
-		else:
-			raise ValueError('Cannot recognize "legend" object')
 	# Create the matplotlib objects ----------------------
 	if together is False:
 		f, ax = plt.subplots(len(yy), sharex=True, figsize=(__figstyle.width*__figstyle.ratio[0]/25.4e-3, __figstyle.width*__figstyle.ratio[1]/25.4e-3))
@@ -157,11 +142,17 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 	for k in range(len(yy)):
 		axes[k].plot(xx[k], yy[k], color=colors[k%len(__figstyle.colors)], linestyle=linestyles[k%len(linestyles)], *args, **kwargs)
 		__figstyle.grid(axes[k])
-		if not legend is None:
+		# Configure legend -------------------------------
+		if legend is not None:
+			if isinstance(legend, str):
+				legend = [legend]
+			if len(legend) != len(yy):
+				raise ValueError('I have received ' + str(len(yy)) + ' data sets and ' + str(len(legend)) + ' legend labels...')
 			if together is True:
 				axes[k].legend(legend)
 			else:
 				axes[k].legend([legend[k]])
+		# ------------------------------------------------
 		if ylabel is not None:
 			if isinstance(ylabel, list):
 				axes[k].set_ylabel(ylabel[k])
