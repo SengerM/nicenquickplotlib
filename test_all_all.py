@@ -4,8 +4,8 @@
 import numpy as np
 import nicenquickplotlib as nq
 
-x = [None]
-x[0] = np.linspace(0,6)
+x = []
+x.append(np.linspace(0,6))
 x.append(np.linspace(0,5))
 x.append(np.linspace(0,4))
 
@@ -28,5 +28,11 @@ nq.plot(x[0], np.sin(x[0]), legend=r'$\sin (x)$', title='legend passing the lege
 nq.plot(x[0], np.sin(x[0]), legend=[r'$\sin (x)$'], title='legend passing the legend as a list')
 nq.plot(x, [np.sin(x[0]), np.cos(x[1]), np.sqrt(x[2])], legend=[r'$\sin(x)$', r'$\cos(x)$', r'$\sqrt{x}$'], title='legend multiple legends together')
 nq.plot(x, [np.sin(x[0]), np.cos(x[1]), np.sqrt(x[2])], legend=[r'$\sin(x)$', r'$\cos(x)$', r'$\sqrt{x}$'], together=False, title='legend multiple legends together=False')
+# Test colors -----------------------------
+random_y = []
+for k in range(10):
+	random_y.append(np.random.normal(loc=k, size=10))
+nq.set_figstyle('default')
+nq.plot(random_y, title='colors')
 
 nq.save_all(csv=True)
