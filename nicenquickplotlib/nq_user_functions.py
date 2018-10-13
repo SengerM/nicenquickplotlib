@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 from . import timestamp
-from .default_configuration_params import *
+from .config_types import *
 from .figure import Figure
 
 # Do not touch this ----------------

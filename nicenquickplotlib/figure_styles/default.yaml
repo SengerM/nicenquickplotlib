@@ -5,3 +5,8 @@ ratio:
  - .6
 
 hspace: .1
+
+colors:
+ - "#ffa366"
+ - "#80bfff"
+ - "#79ff4d"

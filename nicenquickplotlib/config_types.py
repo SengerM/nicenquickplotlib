@@ -1,6 +1,17 @@
 from numbers import Number
 import yaml
 
+def hex2rgb(hexstr):
+	""" Converts a hex "#rrggbb" color string code to a tuble of (r,g,b) """
+	if not isinstance(hexstr, str):
+		raise ValueError('I was expecting a string with the hex code color')
+	if hexstr[0] is not '#':
+		raise ValueError('Invalid hex color code: missing "#" at the begining')
+	if len(hexstr) is not 7:
+		raise ValueError('Invalid hex color code: length of the string code is not 7')
+	hexstr = hexstr[1:]
+	return tuple(int(hexstr[i:i+2], 16)/255 for i in (0, 2 ,4))
+
 def __default_grid__(ax):
 	ax.grid(b=True, which='major', color='#000000', alpha=0.3, linestyle='-', linewidth=0.5)
 	ax.grid(b=True, which='minor', color='#000000', alpha=0.15, linestyle='-', linewidth=0.25)
@@ -8,7 +19,7 @@ def __default_grid__(ax):
 
 class FigStyle:
 	def __init__(self):
-		self.__colors = [(1, .5, 0), (.3, .5, 1), (.3, .4, 0), (1, 0, 1)] # List of (r,g,b) tuples containing the default plotting colors.
+		self.__colors = None
 		self.__width = None
 		self.__ratio = None
 		self.__hspace = None
@@ -39,13 +50,20 @@ class FigStyle:
 				data = yaml.load(stream)
 			except yaml.YAMLError as exc:
 				print(exc)
+		
 		self.__width = 	float(data['width'])
+		
 		if isinstance(data['ratio'], list) and len(data['ratio']) == 2 and isinstance(data['ratio'][0], Number) and isinstance(data['ratio'][1], Number):
 			self.__ratio = data['ratio']
 		else:
 			raise ValueError('Error reading "' + filename + '": ratio must be a list of two numbers [x_ratio, y_ratio]')
+		
 		self.__hspace = float(data['hspace'])
-
+		
+		if isinstance(data['colors'], list):
+			self.__colors = [None]*len(data['colors'])
+			for k in range(len(data['colors'])):
+				self.__colors[k] = hex2rgb(data['colors'][k])
 
 default_file_format = 'png'
 default_save_directory = 'figures'
