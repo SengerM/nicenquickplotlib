@@ -19,6 +19,6 @@ setuptools.setup(
 		"Operating System :: OS Independent",
 	],
 	package_data = {
-		'': ['*.yaml']
+		'': ['figure_styles/*']
 	}
 )
