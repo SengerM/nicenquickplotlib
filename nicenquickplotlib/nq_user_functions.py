@@ -8,15 +8,23 @@ from .figure import Figure
 # Do not touch this ----------------
 __figs_list = []
 __session_timestamp = timestamp.get_timestamp()
-__figstyle = None
+__nq_instalation_path = os.path.dirname(os.path.abspath(__file__))
 # ----------------------------------
 
 def set_figstyle(figstyle):
+	"""Change the current figstyle.
+	
+	Examples
+	-------
+	set_figstyle('default')
+	set_figstyle('blacknwhite')
+	set_figstyle(path_to_my_figstyle_file)
+	"""
 	global __figstyle
 	if figstyle is 'default':
-		__figstyle = FigStyle('/home/alf/nicenquickplotlib/nicenquickplotlib/figure_styles/default.yaml')
+		__figstyle = FigStyle(__nq_instalation_path + '/' + 'figure_styles/default.yaml')
 	elif figstyle is 'blacknwhite':
-		__figstyle = FigStyle('/home/alf/nicenquickplotlib/nicenquickplotlib/figure_styles/blacknwhite.yaml')
+		__figstyle = FigStyle(__nq_instalation_path + '/' + 'figure_styles/blacknwhite.yaml')
 	else:
 		raise ValueError('Not yet implemented!')
 

@@ -11,5 +11,6 @@ nq.set_figstyle('blacknwhite')
 nq.plot(x, [np.sin(x), np.cos(x), np.log(x)], title='blacknwhite colors and linestyles')
 nq.plot(x, [np.sin(x), np.cos(x), np.log(x)], linestyle='--', title='blacknwhite colors and defined linestyle')
 nq.plot(x, [np.sin(x), np.cos(x), np.log(x)], linestyle=['--','-.',':'], title='blacknwhite colors and defined linestyles')
+nq.plot(x, [np.sin(x), np.cos(x), np.log(x)], color='r', linestyle=['--','-.',':'], title='blacknwhite with hardcoded color')
 
 nq.save_all()

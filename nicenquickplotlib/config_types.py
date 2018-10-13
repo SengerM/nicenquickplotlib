@@ -78,3 +78,4 @@ class FigStyle:
 default_file_format = 'png'
 default_save_directory = 'figures'
 default_dpi_rasterization = 200 # Resolution for bitmap format.
+
