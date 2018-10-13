@@ -35,4 +35,4 @@ for k in range(10):
 nq.set_figstyle('default')
 nq.plot(random_y, title='colors')
 
-nq.save_all(csv=True)
+nq.save_all()
