@@ -123,7 +123,7 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 	# Plot -----------------------------------------------
 	for k in range(len(yy)):
 		axes[k].plot(xx[k], yy[k], color=default_fig_style.colors[k], *args, **kwargs)
-		default_grid(axes[k])
+		default_fig_style.grid(axes[k])
 		if not legend is None:
 			if together is True:
 				axes[k].legend(legend)
