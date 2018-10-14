@@ -27,3 +27,5 @@ markers:
  - 'X'
  - '^'
  - 'D'
+
+main_color: '#4444aa'

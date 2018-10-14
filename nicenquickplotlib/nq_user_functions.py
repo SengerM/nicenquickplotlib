@@ -187,6 +187,15 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 			else:
 				leg = axes[k].legend([legend[k]], frameon=False)
 			leg.get_frame().set_linewidth(0)
+		# Configure axes colors ----------------------------------------
+		if __figstyle.main_color is not None:
+			axes[k].spines['bottom'].set_color(__figstyle.main_color)
+			axes[k].spines['top'].set_color(__figstyle.main_color)
+			axes[k].spines['left'].set_color(__figstyle.main_color)
+			axes[k].spines['right'].set_color(__figstyle.main_color)
+			axes[k].xaxis.label.set_color(__figstyle.main_color)
+			axes[k].yaxis.label.set_color(__figstyle.main_color)
+			axes[k].tick_params(which='both', axis='both', colors=__figstyle.main_color)
 		# Configure y labels -------------------------------------------
 		if ylabel is not None:
 			if isinstance(ylabel, list):

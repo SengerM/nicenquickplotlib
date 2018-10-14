@@ -27,6 +27,7 @@ class FigStyle:
 		self.__linestyles = [None]
 		self.__markers = [None]
 		self.__grid = __default_grid__
+		self.__main_color = None
 		
 		self.read_config_file(config_file) # This is what actually initializes the values.
 	
@@ -51,6 +52,9 @@ class FigStyle:
 	@property
 	def markers(self):
 		return self.__markers
+	@property
+	def main_color(self):
+		return self.__main_color
 	
 	def read_config_file(self, filename):
 		if not isinstance(filename, str):
@@ -88,6 +92,10 @@ class FigStyle:
 		if 'markers' in data:
 			if isinstance(data['markers'], list):
 				self.__markers = data['markers']
+		
+		if 'main_color' in data:
+			if isinstance(data['main_color'], str):
+				self.__main_color = data['main_color']
 
 default_file_format = 'png'
 default_save_directory = 'figures'
