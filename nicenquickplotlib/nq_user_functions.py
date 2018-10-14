@@ -34,6 +34,38 @@ def set_figstyle(figstyle):
 
 set_figstyle('default')
 
+def __validate_data_and_generate_lists(x, y=None):
+	"""
+	This function is used internally to validate the (x,y) input data.
+	Currently it is used only by the "plot" function.
+	"""
+	xx = []
+	yy = []
+	if y is None:
+		if isinstance(x, np.ndarray): # This means there is only one data set to plot. Otherwise I would expect a list of numpy arrays.
+			yy.append(x);
+		elif isinstance(x, list):
+			yy = x
+		for k in range(len(yy)):
+			xx.append(np.arange(len(yy[k])))
+	elif isinstance(y, np.ndarray):
+		if not isinstance(x, np.ndarray):
+			raise ValueError('I have received a numpy array with "y" data but "x" data is not a numpy array')
+		xx.append(x)
+		yy.append(y)
+	elif isinstance(y, list):
+		yy = y
+		if isinstance(x, list):
+			if len(y) != len(x):
+				raise ValueError('Different number of data sets received with "x" data and "y" data')
+			xx = x
+		if isinstance(x, np.ndarray):
+			for k in range(len(yy)):
+				xx.append(x)
+	else:
+		raise ValueError('"y" must be a numpy array with data, or a list containing numpy arrays')
+	return xx,yy
+
 def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None, 
 	together=True, xscale='', yscale='', linestyle=None, color=None, marker=None, *args, **kwargs):
 	"""This is the function you have to use to produce a nice and quick plot.
@@ -90,32 +122,7 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 	Figure
 		An instance of the Figure class.
 	"""
-	xx = [] # This is what will actually be plotted.
-	yy = [] # This is what will actually be plotted.
-	# Validation of data ---------------
-	if y is None:
-		if isinstance(x, np.ndarray): # This means there is only one data set to plot. Otherwise I would expect a list of numpy arrays.
-			yy.append(x);
-		elif isinstance(x, list):
-			yy = x
-		for k in range(len(yy)):
-			xx.append(np.arange(len(yy[k])))
-	elif isinstance(y, np.ndarray):
-		if not isinstance(x, np.ndarray):
-			raise ValueError('I have received a numpy array with "y" data but "x" data is not a numpy array')
-		xx.append(x)
-		yy.append(y)
-	elif isinstance(y, list):
-		yy = y
-		if isinstance(x, list):
-			if len(y) != len(x):
-				raise ValueError('Different number of data sets received with "x" data and "y" data')
-			xx = x
-		if isinstance(x, np.ndarray):
-			for k in range(len(yy)):
-				xx.append(x)
-	else:
-		raise ValueError('"y" must be a numpy array with data, or a list containing numpy arrays')
+	xx,yy = __validate_data_and_generate_lists(x,y)
 	# Create the matplotlib objects ----------------------
 	if together is False:
 		f, ax = plt.subplots(len(yy), sharex=True, figsize=(__figstyle.width*__figstyle.ratio[0]/25.4e-3, __figstyle.width*__figstyle.ratio[1]/25.4e-3))
