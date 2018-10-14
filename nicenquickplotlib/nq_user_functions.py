@@ -154,13 +154,17 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 	elif isinstance(color, list):
 		colors = color
 	# Configure markers -----------------------------
-	if marker is not None:
+	if marker is None:
+		markers = [None]
+	else:
 		if marker is True:
 			markers = __figstyle.markers
 		elif isinstance(marker, str):
 			markers = [marker]
-	elif marker is None:
-		markers = [None]
+		elif isinstance(marker, list):
+			markers = marker
+		else:
+			raise ValueError('Cannot recognize what you passed as "marker"...')
 	# Plot -----------------------------------------------
 	for k in range(len(yy)):
 		axes[k].plot(xx[k], yy[k], color=colors[k%len(__figstyle.colors)], linestyle=linestyles[k%len(linestyles)], marker=markers[k%len(markers)], *args, **kwargs)

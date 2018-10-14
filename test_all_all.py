@@ -34,5 +34,9 @@ for k in range(10):
 	random_y.append(np.random.normal(loc=k, size=10))
 nq.set_figstyle('default')
 nq.plot(random_y, title='colors')
+# Test markers ----------------------------
+nq.plot(x, [np.sin(x[0]), np.cos(x[1]), np.sqrt(x[2])], legend=[r'$\sin(x)$', r'$\cos(x)$', r'$\sqrt{x}$'], marker=True, title='markers default')
+nq.plot(x, [np.sin(x[0]), np.cos(x[1]), np.sqrt(x[2])], legend=[r'$\sin(x)$', r'$\cos(x)$', r'$\sqrt{x}$'], marker=['+','x','o'], title='markers specified by a list')
+nq.plot(x, [np.sin(x[0]), np.cos(x[1]), np.sqrt(x[2])], legend=[r'$\sin(x)$', r'$\cos(x)$', r'$\sqrt{x}$'], marker='.', title='markers all the same')
 
 nq.save_all()
