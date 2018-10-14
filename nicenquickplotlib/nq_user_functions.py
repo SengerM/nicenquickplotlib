@@ -110,6 +110,10 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 		niceandquickplotlib.plot(x, [y1,y2], yscale='Ll')
 		
 		will produce a log scale for y1 and a linear scale for y2.
+	linestyle : same as in matplotlib or a list, optional
+		If not specified then the current figstyle linestyles are used.
+	color : same as in matplotlib or a list, optional
+		If not specified then the current figstyle colors are used.
 	markers : bool or string or list of strings, optional
 		If False --> plot with no markers.
 		If True --> plot with current figstyle markers.
@@ -123,7 +127,7 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 		An instance of the Figure class.
 	"""
 	xx,yy = __validate_data_and_generate_lists(x,y)
-	# Create the matplotlib objects ----------------------
+	# Create the matplotlib objects ------------------------------------
 	if together is False:
 		f, ax = plt.subplots(len(yy), sharex=True, figsize=(__figstyle.width*__figstyle.ratio[0]/25.4e-3, __figstyle.width*__figstyle.ratio[1]/25.4e-3))
 		f.subplots_adjust(hspace=__figstyle.hspace)
@@ -133,27 +137,30 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 		axes = []
 		for k in range(len(yy)):
 			axes.append(ax)
-	# Create the Figure object for the current figure ----
+	# Create the Figure object for the current figure ------------------
 	current_fig = Figure(f, axes)
 	__figs_list.append(current_fig)
 	current_fig.title = title
 	current_fig.xdata = xx
 	current_fig.ydata = yy
-	# Configure linestyle --------------------------------
+	# Configure linestyle ----------------------------------------------
 	if linestyle is None:
 		linestyles = __figstyle.linestyles
-	elif isinstance(linestyle, str):
-		linestyles = [linestyle]
-	elif isinstance(linestyle, list):
-		linestyles = linestyle
-	# Configure colors -----------------------------------
+	else:
+		if isinstance(linestyle, str):
+			linestyles = [linestyle]
+		elif isinstance(linestyle, list):
+			linestyles = linestyle
+		else:
+			raise ValueError('Cannot understand what you passed as "linestyle"')
+	# Configure colors -------------------------------------------------
 	if color is None:
 		colors = __figstyle.colors
 	elif isinstance(color, str):
 		colors = [color]
 	elif isinstance(color, list):
 		colors = color
-	# Configure markers -----------------------------
+	# Configure markers ------------------------------------------------
 	if marker is None:
 		markers = [None]
 	else:
@@ -164,22 +171,23 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 		elif isinstance(marker, list):
 			markers = marker
 		else:
-			raise ValueError('Cannot recognize what you passed as "marker"...')
-	# Plot -----------------------------------------------
+			raise ValueError('Cannot understand what you passed as "marker"...')
+	# Plot -------------------------------------------------------------
 	for k in range(len(yy)):
 		axes[k].plot(xx[k], yy[k], color=colors[k%len(__figstyle.colors)], linestyle=linestyles[k%len(linestyles)], marker=markers[k%len(markers)], *args, **kwargs)
 		__figstyle.grid(axes[k])
-		# Configure legend -------------------------------
+		# Configure legend ---------------------------------------------
 		if legend is not None:
 			if isinstance(legend, str):
 				legend = [legend]
 			if len(legend) != len(yy):
 				raise ValueError('I have received ' + str(len(yy)) + ' data sets and ' + str(len(legend)) + ' legend labels...')
 			if together is True:
-				axes[k].legend(legend)
+				leg = axes[k].legend(legend)
 			else:
-				axes[k].legend([legend[k]])
-		# ------------------------------------------------
+				leg = axes[k].legend([legend[k]], frameon=False)
+			leg.get_frame().set_linewidth(0)
+		# Configure y labels -------------------------------------------
 		if ylabel is not None:
 			if isinstance(ylabel, list):
 				axes[k].set_ylabel(ylabel[k])
@@ -192,7 +200,7 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 				axes[k].set_yscale('linear')
 			if yscale[k] is 'L':
 				axes[k].set_yscale('log')
-		# -----------------------------------------------	
+		# Configure sacles ---------------------------------------------	
 	if 'l' in xscale:
 		axes[0].set_xscale('linear')
 	if 'L' in xscale:
