@@ -13,6 +13,10 @@ __nq_instalation_path = os.path.dirname(os.path.abspath(__file__))
 
 def set_figstyle(figstyle):
 	"""Change the current figstyle.
+	Parameters
+	----------
+	figstyle : FigStyle
+		An instance of the class FigStyle.
 	
 	Examples
 	-------
@@ -29,7 +33,6 @@ def set_figstyle(figstyle):
 		raise ValueError('Not yet implemented!')
 
 set_figstyle('default')
-
 
 def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None, 
 	together=True, xscale='', yscale='', linestyle=None, color=None, *args, **kwargs):
@@ -79,9 +82,8 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 	Returns
 	-------
 	Figure
-		A nicenquickplotlib type Figure object.
+		An instance of the Figure class.
 	"""
-	
 	xx = [] # This is what will actually be plotted.
 	yy = [] # This is what will actually be plotted.
 	# Validation of data ---------------
@@ -178,12 +180,13 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 	return current_fig
 	
 def show():
-	"""This is the same as 'plt.show()'"""
+	"""This is the same as  matplotlib's plt.show()"""
 	plt.show()
 
 def save_all(timestamp=False, mkdir=True, csv=False):
-	"""Calling this function will save all plots created with 
-	nicenquickplotlib
+	"""
+	Calling this function will save all plots created with 
+	nicenquickplotlib.
 	
 	Arguments
 	---------
