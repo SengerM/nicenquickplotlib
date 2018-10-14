@@ -35,7 +35,7 @@ def set_figstyle(figstyle):
 set_figstyle('default')
 
 def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None, 
-	together=True, xscale='', yscale='', linestyle=None, color=None, *args, **kwargs):
+	together=True, xscale='', yscale='', linestyle=None, color=None, marker=None, *args, **kwargs):
 	"""This is the function you have to use to produce a nice and quick plot.
 	
 	Arguments
@@ -78,6 +78,12 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 		niceandquickplotlib.plot(x, [y1,y2], yscale='Ll')
 		
 		will produce a log scale for y1 and a linear scale for y2.
+	markers : bool or string or list of strings, optional
+		If False --> plot with no markers.
+		If True --> plot with current figstyle markers.
+		If a string --> the specified marker is used for all plots.
+		If a list of stings --> each data set uses each marker.
+		Default is False.
 	
 	Returns
 	-------
@@ -140,9 +146,17 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 		colors = [color]
 	elif isinstance(color, list):
 		colors = color
+	# Configure markers -----------------------------
+	if marker is not None:
+		if marker is True:
+			markers = __figstyle.markers
+		elif isinstance(marker, str):
+			markers = [marker]
+	elif marker is None:
+		markers = [None]
 	# Plot -----------------------------------------------
 	for k in range(len(yy)):
-		axes[k].plot(xx[k], yy[k], color=colors[k%len(__figstyle.colors)], linestyle=linestyles[k%len(linestyles)], *args, **kwargs)
+		axes[k].plot(xx[k], yy[k], color=colors[k%len(__figstyle.colors)], linestyle=linestyles[k%len(linestyles)], marker=markers[k%len(markers)], *args, **kwargs)
 		__figstyle.grid(axes[k])
 		# Configure legend -------------------------------
 		if legend is not None:
@@ -167,6 +181,7 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 				axes[k].set_yscale('linear')
 			if yscale[k] is 'L':
 				axes[k].set_yscale('log')
+		# -----------------------------------------------	
 	if 'l' in xscale:
 		axes[0].set_xscale('linear')
 	if 'L' in xscale:
