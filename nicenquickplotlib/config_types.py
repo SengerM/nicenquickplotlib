@@ -1,16 +1,6 @@
 from numbers import Number
 import yaml
-
-def hex2rgb(hexstr):
-	"""Converts a hex "#rrggbb" color string code to a tuble of (r,g,b)"""
-	if not isinstance(hexstr, str):
-		raise ValueError('I was expecting a string with the hex code color')
-	if hexstr[0] is not '#':
-		raise ValueError('Invalid hex color code: missing "#" at the begining')
-	if len(hexstr) is not 7:
-		raise ValueError('Invalid hex color code: length of the string code is not 7')
-	hexstr = hexstr[1:]
-	return tuple(int(hexstr[i:i+2], 16)/255 for i in (0, 2 ,4)) # Taken from https://stackoverflow.com/a/29643643/8849755
+from .color_tools import hex2rgb
 
 def __default_grid__(ax):
 	"""This is a temporary function"""
@@ -27,6 +17,7 @@ class FigStyle:
 		self.__linestyles = [None]
 		self.__markers = [None]
 		self.__grid = __default_grid__
+		self.__main_color = None
 		
 		self.read_config_file(config_file) # This is what actually initializes the values.
 	
@@ -51,6 +42,9 @@ class FigStyle:
 	@property
 	def markers(self):
 		return self.__markers
+	@property
+	def main_color(self):
+		return self.__main_color
 	
 	def read_config_file(self, filename):
 		if not isinstance(filename, str):
@@ -88,6 +82,10 @@ class FigStyle:
 		if 'markers' in data:
 			if isinstance(data['markers'], list):
 				self.__markers = data['markers']
+		
+		if 'main_color' in data:
+			if isinstance(data['main_color'], str):
+				self.__main_color = hex2rgb(data['main_color'])
 
 default_file_format = 'png'
 default_save_directory = 'figures'

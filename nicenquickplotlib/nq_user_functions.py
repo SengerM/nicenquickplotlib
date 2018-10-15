@@ -4,6 +4,8 @@ import os
 from . import timestamp
 from .config_types import *
 from .figure import Figure
+from .color_tools import hex2rgb
+from .color_tools import *
 
 # Do not touch this ----------------
 __figs_list = []
@@ -33,6 +35,38 @@ def set_figstyle(figstyle):
 		raise ValueError('Not yet implemented!')
 
 set_figstyle('default')
+
+def __validate_data_and_generate_lists(x, y=None):
+	"""
+	This function is used internally to validate the (x,y) input data.
+	Currently it is used only by the "plot" function.
+	"""
+	xx = []
+	yy = []
+	if y is None:
+		if isinstance(x, np.ndarray): # This means there is only one data set to plot. Otherwise I would expect a list of numpy arrays.
+			yy.append(x);
+		elif isinstance(x, list):
+			yy = x
+		for k in range(len(yy)):
+			xx.append(np.arange(len(yy[k])))
+	elif isinstance(y, np.ndarray):
+		if not isinstance(x, np.ndarray):
+			raise ValueError('I have received a numpy array with "y" data but "x" data is not a numpy array')
+		xx.append(x)
+		yy.append(y)
+	elif isinstance(y, list):
+		yy = y
+		if isinstance(x, list):
+			if len(y) != len(x):
+				raise ValueError('Different number of data sets received with "x" data and "y" data')
+			xx = x
+		if isinstance(x, np.ndarray):
+			for k in range(len(yy)):
+				xx.append(x)
+	else:
+		raise ValueError('"y" must be a numpy array with data, or a list containing numpy arrays')
+	return xx,yy
 
 def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None, 
 	together=True, xscale='', yscale='', linestyle=None, color=None, marker=None, *args, **kwargs):
@@ -78,6 +112,10 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 		niceandquickplotlib.plot(x, [y1,y2], yscale='Ll')
 		
 		will produce a log scale for y1 and a linear scale for y2.
+	linestyle : same as in matplotlib or a list, optional
+		If not specified then the current figstyle linestyles are used.
+	color : same as in matplotlib or a list, optional
+		If not specified then the current figstyle colors are used.
 	markers : bool or string or list of strings, optional
 		If False --> plot with no markers.
 		If True --> plot with current figstyle markers.
@@ -90,33 +128,8 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 	Figure
 		An instance of the Figure class.
 	"""
-	xx = [] # This is what will actually be plotted.
-	yy = [] # This is what will actually be plotted.
-	# Validation of data ---------------
-	if y is None:
-		if isinstance(x, np.ndarray): # This means there is only one data set to plot. Otherwise I would expect a list of numpy arrays.
-			yy.append(x);
-		elif isinstance(x, list):
-			yy = x
-		for k in range(len(yy)):
-			xx.append(np.arange(len(yy[k])))
-	elif isinstance(y, np.ndarray):
-		if not isinstance(x, np.ndarray):
-			raise ValueError('I have received a numpy array with "y" data but "x" data is not a numpy array')
-		xx.append(x)
-		yy.append(y)
-	elif isinstance(y, list):
-		yy = y
-		if isinstance(x, list):
-			if len(y) != len(x):
-				raise ValueError('Different number of data sets received with "x" data and "y" data')
-			xx = x
-		if isinstance(x, np.ndarray):
-			for k in range(len(yy)):
-				xx.append(x)
-	else:
-		raise ValueError('"y" must be a numpy array with data, or a list containing numpy arrays')
-	# Create the matplotlib objects ----------------------
+	xx,yy = __validate_data_and_generate_lists(x,y)
+	# Create the matplotlib objects ------------------------------------
 	if together is False:
 		f, ax = plt.subplots(len(yy), sharex=True, figsize=(__figstyle.width*__figstyle.ratio[0]/25.4e-3, __figstyle.width*__figstyle.ratio[1]/25.4e-3))
 		f.subplots_adjust(hspace=__figstyle.hspace)
@@ -126,49 +139,70 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 		axes = []
 		for k in range(len(yy)):
 			axes.append(ax)
-	# Create the Figure object for the current figure ----
+	# Create the Figure object for the current figure ------------------
 	current_fig = Figure(f, axes)
 	__figs_list.append(current_fig)
 	current_fig.title = title
 	current_fig.xdata = xx
 	current_fig.ydata = yy
-	# Configure linestyle --------------------------------
+	# Configure linestyle ----------------------------------------------
 	if linestyle is None:
 		linestyles = __figstyle.linestyles
-	elif isinstance(linestyle, str):
-		linestyles = [linestyle]
-	elif isinstance(linestyle, list):
-		linestyles = linestyle
-	# Configure colors -----------------------------------
+	else:
+		if isinstance(linestyle, str):
+			linestyles = [linestyle]
+		elif isinstance(linestyle, list):
+			linestyles = linestyle
+		else:
+			raise ValueError('Cannot understand what you passed as "linestyle"')
+	# Configure colors -------------------------------------------------
 	if color is None:
 		colors = __figstyle.colors
 	elif isinstance(color, str):
 		colors = [color]
 	elif isinstance(color, list):
 		colors = color
-	# Configure markers -----------------------------
-	if marker is not None:
+	# Configure markers ------------------------------------------------
+	if marker is None:
+		markers = [None]
+	else:
 		if marker is True:
 			markers = __figstyle.markers
 		elif isinstance(marker, str):
 			markers = [marker]
-	elif marker is None:
-		markers = [None]
-	# Plot -----------------------------------------------
+		elif isinstance(marker, list):
+			markers = marker
+		else:
+			raise ValueError('Cannot understand what you passed as "marker"...')
+	# Plot -------------------------------------------------------------
 	for k in range(len(yy)):
 		axes[k].plot(xx[k], yy[k], color=colors[k%len(__figstyle.colors)], linestyle=linestyles[k%len(linestyles)], marker=markers[k%len(markers)], *args, **kwargs)
 		__figstyle.grid(axes[k])
-		# Configure legend -------------------------------
+		# Configure legend ---------------------------------------------
 		if legend is not None:
 			if isinstance(legend, str):
 				legend = [legend]
 			if len(legend) != len(yy):
 				raise ValueError('I have received ' + str(len(yy)) + ' data sets and ' + str(len(legend)) + ' legend labels...')
 			if together is True:
-				axes[k].legend(legend)
+				leg = axes[k].legend(legend)
 			else:
-				axes[k].legend([legend[k]])
-		# ------------------------------------------------
+				leg = axes[k].legend([legend[k]], frameon=False)
+			leg.get_frame().set_linewidth(0)
+			if __figstyle.main_color is not None:
+				for text in leg.get_texts():
+					text.set_color(__figstyle.main_color)
+		# Configure axes colors ----------------------------------------
+		if __figstyle.main_color is not None:
+			axes[k].spines['bottom'].set_color(__figstyle.main_color)
+			axes[k].spines['top'].set_color(__figstyle.main_color)
+			axes[k].spines['left'].set_color(__figstyle.main_color)
+			axes[k].spines['right'].set_color(__figstyle.main_color)
+			axes[k].xaxis.label.set_color(__figstyle.main_color)
+			axes[k].yaxis.label.set_color(__figstyle.main_color)
+			axes[k].tick_params(which='major', axis='both', colors=__figstyle.main_color)
+			axes[k].tick_params(which='minor', axis='both', colors=__figstyle.main_color)
+		# Configure y labels -------------------------------------------
 		if ylabel is not None:
 			if isinstance(ylabel, list):
 				axes[k].set_ylabel(ylabel[k])
@@ -181,7 +215,7 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 				axes[k].set_yscale('linear')
 			if yscale[k] is 'L':
 				axes[k].set_yscale('log')
-		# -----------------------------------------------	
+		# Configure sacles ---------------------------------------------	
 	if 'l' in xscale:
 		axes[0].set_xscale('linear')
 	if 'L' in xscale:
