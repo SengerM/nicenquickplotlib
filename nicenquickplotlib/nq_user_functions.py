@@ -142,9 +142,12 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 	# Create the Figure object for the current figure ------------------
 	current_fig = Figure(f, axes)
 	__figs_list.append(current_fig)
-	current_fig.title = title
 	current_fig.xdata = xx
 	current_fig.ydata = yy
+	if __figstyle.main_color is not None:
+		current_fig.set_title(title, color=__figstyle.main_color)
+	else:
+		current_fig.set_title(title)
 	# Configure linestyle ----------------------------------------------
 	if linestyle is None:
 		linestyles = __figstyle.linestyles
@@ -155,7 +158,7 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 			linestyles = linestyle
 		else:
 			raise ValueError('Cannot understand what you passed as "linestyle"')
-	# Configure colors -------------------------------------------------
+	# Configure line colors --------------------------------------------
 	if color is None:
 		colors = __figstyle.colors
 	elif isinstance(color, str):
