@@ -7,18 +7,20 @@ from .figure import Figure
 from .color_tools import hex2rgb
 from .color_tools import *
 
-# Do not touch this ----------------
+# Default values -------------------------------------------------------
+default_dpi_rasterization = 200 # Resolution for bitmap format.
+# Do not touch this ----------------------------------------------------
 __figs_list = []
 __session_timestamp = timestamp.get_timestamp()
 __nq_instalation_path = os.path.dirname(os.path.abspath(__file__))
-# ----------------------------------
+# ----------------------------------------------------------------------
 
 def set_figstyle(figstyle):
 	"""Change the current figstyle.
 	Parameters
 	----------
-	figstyle : FigStyle
-		An instance of the class FigStyle.
+	figstyle : string
+		Specifies which figstyle file to load.
 	
 	Examples
 	-------
@@ -235,7 +237,7 @@ def show():
 	"""This is the same as  matplotlib's plt.show()"""
 	plt.show()
 
-def save_all(timestamp=False, mkdir=True, csv=False):
+def save_all(timestamp=False, mkdir='figures', csv=False, image_format='png'):
 	"""
 	Calling this function will save all plots created with 
 	nicenquickplotlib.
@@ -247,23 +249,25 @@ def save_all(timestamp=False, mkdir=True, csv=False):
 		same) timestamp. This is usefull when you want not to overwrite
 		the plots each time you run your code.
 		Default value is False.
-	mkdir : bool, optional
-		If true then a directory will be created (with name specified
-		by the 'default_save_directory' variable) and all figures will
-		be saved in there. If fallse all figures will be saved in the 
-		current working directory.
-		Default value is True.
+	mkdir : str or None, optional
+		If a string is passed then a directory will be created (with the
+		specified name) and all figures will be saved in there. If None
+		all figures will be saved in the current working directory.
+		Default value is 'figures'.
 	csv : bool, optional
 		If true then a csv file is created along with each image file 
 		containing the data that is plotted.
+	image_format : string, optional
+		Format of image files. Default is 'png'. 
 	"""
-	if mkdir is True:
-		if timestamp is False:
-			directory = default_save_directory
-		else:
-			directory = __session_timestamp
-		if not os.path.exists(directory):
-			os.makedirs(directory)
+	if mkdir is not None:
+		directory = mkdir + '/'
+	else:
+		directory = ''
+	if timestamp is True:
+		directory += __session_timestamp
+	if not os.path.exists(directory):
+		os.makedirs(directory)
 	for k in range(len(__figs_list)):
 		file_name = ''
 		if timestamp is True:
@@ -274,7 +278,7 @@ def save_all(timestamp=False, mkdir=True, csv=False):
 			file_name += __figs_list[k].title
 		file_name = file_name.replace(' ','_').lower()
 		
-		__figs_list[k].fig.savefig(directory + '/' + file_name + '.' + default_file_format, dpi=default_dpi_rasterization, bbox_inches='tight')
+		__figs_list[k].fig.savefig(directory + '/' + file_name + '.' + image_format, dpi=default_dpi_rasterization, bbox_inches='tight')
 		
 		if csv is True:
 			for l in range(len(__figs_list[k].ydata)):

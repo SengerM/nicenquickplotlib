@@ -1,17 +1,19 @@
 # figstyle default
 
-width: 160e-3
+main_color: '#888888' # This color is used for axes, labels, titles, etc.
 
-ratio:
+width: 160e-3 # Figures width in meters.
+
+ratio: # x,y ratio of the figures.
  - 1
  - .6
 
-hspace: .1
+hspace: .1 # Vertical separation between subplots when using "together=False".
 
-colors:
+colors: # to be used (cyclically) when plotting data.
  - '#ffa366'
  - '#80bfff'
- - '#79ff4d'
+ - '#79bb4d'
  - '#ff99cc'
  - '#8585ad'
  - '#cccc00'
@@ -20,12 +22,10 @@ colors:
  - '#0000aa'
  - '#ff00ff'
 
-markers:
+markers: # to be used (cyclically) when plotting data.
  - '.'
  - 's'
  - 'p'
  - 'X'
  - '^'
  - 'D'
-
-main_color: '#888888'
