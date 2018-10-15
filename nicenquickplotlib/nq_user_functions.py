@@ -4,6 +4,8 @@ import os
 from . import timestamp
 from .config_types import *
 from .figure import Figure
+from .color_tools import hex2rgb
+from .color_tools import *
 
 # Do not touch this ----------------
 __figs_list = []
@@ -187,6 +189,9 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 			else:
 				leg = axes[k].legend([legend[k]], frameon=False)
 			leg.get_frame().set_linewidth(0)
+			if __figstyle.main_color is not None:
+				for text in leg.get_texts():
+					text.set_color(__figstyle.main_color)
 		# Configure axes colors ----------------------------------------
 		if __figstyle.main_color is not None:
 			axes[k].spines['bottom'].set_color(__figstyle.main_color)
@@ -195,7 +200,8 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 			axes[k].spines['right'].set_color(__figstyle.main_color)
 			axes[k].xaxis.label.set_color(__figstyle.main_color)
 			axes[k].yaxis.label.set_color(__figstyle.main_color)
-			axes[k].tick_params(which='both', axis='both', colors=__figstyle.main_color)
+			axes[k].tick_params(which='major', axis='both', colors=__figstyle.main_color)
+			axes[k].tick_params(which='minor', axis='both', colors=__figstyle.main_color)
 		# Configure y labels -------------------------------------------
 		if ylabel is not None:
 			if isinstance(ylabel, list):

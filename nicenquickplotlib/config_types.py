@@ -85,7 +85,7 @@ class FigStyle:
 		
 		if 'main_color' in data:
 			if isinstance(data['main_color'], str):
-				self.__main_color = data['main_color']
+				self.__main_color = hex2rgb(data['main_color'])
 
 default_file_format = 'png'
 default_save_directory = 'figures'
