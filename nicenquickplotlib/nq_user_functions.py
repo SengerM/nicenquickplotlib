@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-from . import timestamp
+from . import timestamp as ts
 from .config_types import *
 from .figure import Figure
 from .color_tools import hex2rgb
@@ -11,7 +11,7 @@ from .color_tools import *
 default_dpi_rasterization = 200 # Resolution for bitmap format.
 # Do not touch this ----------------------------------------------------
 __figs_list = []
-__session_timestamp = timestamp.get_timestamp()
+__session_timestamp = ts.get_timestamp()
 __nq_instalation_path = os.path.dirname(os.path.abspath(__file__))
 # ----------------------------------------------------------------------
 
@@ -244,10 +244,14 @@ def save_all(timestamp=False, mkdir='figures', csv=False, image_format='png'):
 	
 	Arguments
 	---------
-	timestamp : bool, optional
+	timestamp : bool or str, optional
 		If true then all file names will be identified with one (and the
-		same) timestamp. This is usefull when you want not to overwrite
-		the plots each time you run your code.
+		same) timestamp. In this case the timestamp is generated for the
+		session, i.e. when you execute "import nicenquick".
+		If 'now' then the timestamp is generated at the time you call the
+		save_all function.
+		This is usefull when you want not to overwrite the plots each 
+		time you run your code.
 		Default value is False.
 	mkdir : str or None, optional
 		If a string is passed then a directory will be created (with the
@@ -266,6 +270,10 @@ def save_all(timestamp=False, mkdir='figures', csv=False, image_format='png'):
 		directory = ''
 	if timestamp is True:
 		directory += __session_timestamp
+	elif timestamp is 'now':
+		directory += ts.get_timestamp()
+	else:
+		raise ValueError('Wrong value for the timestamp argument')
 	if not os.path.exists(directory):
 		os.makedirs(directory)
 	for k in range(len(__figs_list)):
