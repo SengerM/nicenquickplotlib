@@ -7,6 +7,7 @@ There are a set of "default configuration parameters" that can be modified in or
 Nice and quick plot lib uses Matplotlib to produce the plots. The *nicenquickplotlib* figures are stored in a self defined class called ```Figure```. You can access to any of the matplotlib objects through ```Figure.fig``` and ```Figure.axes```.
 
 ## Instalation
+Make sure you have Pip installed, then open a terminal (cmd in Windows or any terminal in Ubuntu) and type:
 - Python 2
 ```
 pip install git+https://github.com/SengerM/nicenquickplotlib.git
@@ -39,7 +40,8 @@ See also the "test_all_all.py" file.
 ### Important usage tips
 
 - Currently *nicenquickplotlib* only supports plotting numpy arrays. This means that **the data you pass to the ```plot``` function must be stored in numpy arrays**.
-- If multiple data sets are to be plotted in the same figure, then ```plot``` expects a list of numpy arrays, but **not a bidimensional numpy array (not a numpy matrix)**. For example:
+- If multiple data sets are to be plotted in the same figure, then ```plot``` expects a list of numpy arrays, but **not a bidimensional numpy array (not a numpy matrix)**. 
+For example:
 ```Python
 xdata_list = [1,2,3,4] # This is a list! And its currently unsoported.
 xdata_np = np.array(xdata_list) # Now it was converted into a numpy array.
@@ -54,9 +56,19 @@ plot(xdata_list, ydata_1) # Error because x data is a list.
 plot(xdata_np, ydata_1) # This sould work fine.
 plot(xdata_np, y_list) # This should work because y_list is a list of numpy arrays.
 plot(xdata_np, y_wrong) # This should not work.
-plot(xdata_np, [[1,2,3,4],[1,3,5,7]]) # This should not work because y data  is a list of lists.
+plot(xdata_np, [[1,2,3,4],[1,3,5,7]]) # This should not work because y data is a list of lists.
 ```
-
+### Change the default plotting style
+```Python
+import numpy as np
+import nicenquickplotlib as nq
+x = np.linspace(0,6)
+nq.set_figstyle('blacknwhite')
+nq.plot(x, [np.sin(x), np.sqrt(x), np.cos(x)]) # This will be plotted using the 'blacknwhite' figstyle.
+nq.set_figstyle('default')
+nq.plot(x, [np.sin(x), np.sqrt(x), np.cos(x)]) # This will be plotted using the 'default' figstyle.
+nq.save_all()
+```
 ## Future plans
 - Include plotting with error bars in a *nice and quick approach*.
 - Implement the custom user preset feauture so you can configure your plots as you like in a *nice and quick approach*.
