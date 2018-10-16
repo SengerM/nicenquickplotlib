@@ -28,6 +28,7 @@ nq.plot(x[0], np.sin(x[0]), legend=r'$\sin (x)$', title='legend passing the lege
 nq.plot(x[0], np.sin(x[0]), legend=[r'$\sin (x)$'], title='legend passing the legend as a list')
 nq.plot(x, [np.sin(x[0]), np.cos(x[1]), np.sqrt(x[2])], legend=[r'$\sin(x)$', r'$\cos(x)$', r'$\sqrt{x}$'], title='legend multiple legends together')
 nq.plot(x, [np.sin(x[0]), np.cos(x[1]), np.sqrt(x[2])], legend=[r'$\sin(x)$', r'$\cos(x)$', r'$\sqrt{x}$'], together=False, title='legend multiple legends together=False')
+nq.save_all(timestamp='now')
 # Test colors -----------------------------
 random_y = []
 for k in range(10):
@@ -45,4 +46,4 @@ nq.plot(x, [np.sin(x[0]), np.cos(x[1]), np.sqrt(x[2])], legend=[r'$\sin(x)$', r'
 nq.plot(x, [np.sin(x[0]), np.cos(x[1]), np.sqrt(x[2])], legend=[r'$\sin(x)$', r'$\cos(x)$', r'$\sqrt{x}$'], marker='.', title='markers all the same in default figstyle')
 
 
-nq.save_all()
+nq.save_all(image_format='pdf', csv=True, timestamp=True)

@@ -4,8 +4,8 @@ from .color_tools import hex2rgb
 
 def __default_grid__(ax):
 	"""This is a temporary function"""
-	ax.grid(b=True, which='major', color='#000000', alpha=0.3, linestyle='-', linewidth=0.5)
-	ax.grid(b=True, which='minor', color='#000000', alpha=0.15, linestyle='-', linewidth=0.25)
+	ax.grid(b=True, which='major', color='#000000', alpha=0.2, linestyle='-', linewidth=0.5)
+	ax.grid(b=True, which='minor', color='#000000', alpha=0.1, linestyle='-', linewidth=0.25)
 	ax.minorticks_on() # Enables minor ticks without text, only the ticks.
 
 class FigStyle:
@@ -86,8 +86,3 @@ class FigStyle:
 		if 'main_color' in data:
 			if isinstance(data['main_color'], str):
 				self.__main_color = hex2rgb(data['main_color'])
-
-default_file_format = 'png'
-default_save_directory = 'figures'
-default_dpi_rasterization = 200 # Resolution for bitmap format.
-

@@ -42,12 +42,11 @@ class Figure:
 	def title(self):
 		return self.__title
 	
-	@title.setter
-	def title(self, title):
+	def set_title(self, title, *args, **kwargs):
 		if not isinstance(title, str):
 			title = ''
 		self.__title = title
-		self.fig.suptitle(title)
+		self.fig.suptitle(title, *args, **kwargs)
 	
 	@property
 	def xdata(self):
