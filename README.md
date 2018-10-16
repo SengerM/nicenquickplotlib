@@ -75,7 +75,7 @@ If you want to run your code multiple times and keep all the figures and data ea
 import numpy as np
 import nicenquickplotlib as nq
 x = np.linspace(0,6)
-nq.plot(x, [np.sin(x), np.sqrt(x), np.cos(x)]) # This will be plotted using the 'blacknwhite' figstyle.
+nq.plot(x, [np.sin(x), np.sqrt(x), np.cos(x)])
 nq.save_all(timestamp=True) # or timestamp='now' if you are using Spyder or a similar program.
 ```
 ## Future plans
