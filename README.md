@@ -18,6 +18,7 @@ pip3 install git+https://github.com/SengerM/nicenquickplotlib.git
 ```
 
 ## Usage
+You have to worry about nothing but plot. Just call the ```plot``` function N times and then call the ```save_all``` function:
 ```Python
 import numpy as np
 import nicenquickplotlib as nq
@@ -33,7 +34,8 @@ nq.plot(x1, [np.sin(x1), np.sqrt(x1), np.cos(x1)], title='Different "y" all with
 nq.plot(x1, [np.sin(x1), np.sqrt(x1), np.cos(x1)], ylabel='Label', together=False) # Same label for all y axes.
 nq.plot(x1, [np.sin(x1), np.sqrt(x1), np.cos(x1)], ylabel=['Label 1','Label 2', 'Label 3'], together=False) # Different labels for each y axis.
 
-nq.save_all(csv=True) # Wow! You can save all your plots (and csv data files) with just one line! This is amazing!
+nq.save_all(csv=True, timestamp='now') # Wow! You can save all your plots (and csv data files) with just one line! This is amazing!
+nq.show()
 ```
 See also the "test_all_all.py" file.
 
@@ -77,6 +79,15 @@ import nicenquickplotlib as nq
 x = np.linspace(0,6)
 nq.plot(x, [np.sin(x), np.sqrt(x), np.cos(x)])
 nq.save_all(timestamp=True) # or timestamp='now' if you are using Spyder or a similar program.
+```
+### Image file format
+Change the default (png) file format for saving the images. Any of the formats supported by the [savefig](https://matplotlib.org/api/_as_gen/matplotlib.pyplot.savefig.html) function is supported.
+```Python
+import numpy as np
+import nicenquickplotlib as nq
+x = np.linspace(0,6)
+nq.plot(x, [np.sin(x), np.sqrt(x), np.cos(x)])
+nq.save_all(image_format='pdf')
 ```
 ## Future plans
 - Include plotting with error bars in a *nice and quick approach*.
