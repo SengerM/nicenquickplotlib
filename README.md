@@ -25,7 +25,7 @@ x1 = np.linspace(0,6)
 x2 = np.linspace(1,5,10)
 # ----------------------------
 nq.plot(np.sin(x1)) # This is figure number 1
-figure_1 = nq.plot(x1, np.sin(x1), title='Figure with title') # This is figure number 2
+nq.plot(x1, np.sin(x1), title='Figure with title') # This is figure number 2
 nq.plot([x1,x2], [np.sin(x1), np.sin(x2)], marker='.', title='Multiple [x,y] datasets together') # Multiple [x,y] datasets.
 nq.plot([x1,x2], [np.sin(x1), np.sin(x2)], together=False, marker='.', title='Multiple [x,y] datasets in subplots') # Multiple [x,y] datasets.
 nq.plot(x1, [np.sin(x1), np.sqrt(x1), np.cos(x1)], title='Different "y" all with the same "x"')
@@ -34,7 +34,7 @@ nq.plot(x1, [np.sin(x1), np.sqrt(x1), np.cos(x1)], ylabel=['Label 1','Label 2', 
 
 nq.save_all(csv=True) # Wow! You can save all your plots (and csv data files) with just one line! This is amazing!
 ```
-See also the "example.py" file.
+See also the "test_all_all.py" file.
 
 ### Important usage tips
 
