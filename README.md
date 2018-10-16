@@ -69,6 +69,15 @@ nq.set_figstyle('default')
 nq.plot(x, [np.sin(x), np.sqrt(x), np.cos(x)]) # This will be plotted using the 'default' figstyle.
 nq.save_all()
 ```
+### Use the timestamp
+If you want to run your code multiple times and keep all the figures and data each time without loosing the previous ones, you can call the ```save_all``` function with the ```timestamp``` option:
+```Python
+import numpy as np
+import nicenquickplotlib as nq
+x = np.linspace(0,6)
+nq.plot(x, [np.sin(x), np.sqrt(x), np.cos(x)]) # This will be plotted using the 'blacknwhite' figstyle.
+nq.save_all(timestamp=True) # or timestamp='now' if you are using Spyder or a similar program.
+```
 ## Future plans
 - Include plotting with error bars in a *nice and quick approach*.
 - Implement the custom user preset feauture so you can configure your plots as you like in a *nice and quick approach*.
