@@ -1,6 +1,6 @@
 # Nice 'n quick plot lib
 
-This package contains a set of functions that help the user to produce nice plots very quickly and without having to worry about formatting. The idea is that each call to ```plot``` produces one new figure that will be ready to save. The package automatically keeps track of all the figures and then you can do what you usually want to with just one line: save all your figures just calling ```save_all``` function. The ```save_all``` function also allows to save a CSV file containing the data ploted. This means that if you are in the lab taking measurements, you can use *nicenquickplotlib* to plot and save your data with the same command. Great, huh? 
+This package contains a set of functions that help the user to produce nice plots very quickly and without having to worry about formatting. The idea is that each call to ```plot``` produces one new figure that will be ready to save. The package automatically keeps track of all the figures and then you can do what you usually want to with just one line: save all your figures just calling ```save_all``` function. The ```save_all``` function also allows to save a CSV file containing the ploted data. This means that if you are in the lab taking measurements, you can use *nicenquickplotlib* to plot and save your data with the same command. Great, huh? 
 
 There are a set of "default configuration parameters" that can be modified in order to control things such as the default size of all figures, the default colors, etc. In the future the plan is to allow the user to define "custom presets".
 
@@ -107,7 +107,7 @@ will produce the following images:
   <img width="460" src="https://raw.githubusercontent.com/SengerM/nicenquickplotlib/master/doc/figstyle_doc/img/plot4.png">
 </p>
 
-If you want to define your own figstyle you have to create a [YAML](https://en.wikipedia.org/wiki/YAML) file. It is very easy. You can use the template from [this example](https://github.com/SengerM/nicenquickplotlib/tree/master/doc/figstyle_doc).
+If you want to define your own figstyle you have to create a [YAML](https://en.wikipedia.org/wiki/YAML) file. It is very easy. You can use the template from [this example](https://github.com/SengerM/nicenquickplotlib/tree/master/doc/figstyle_doc). Once you have selected a figstyle, all your plots will use it.
 
 ### Use the timestamp
 If you want to run your code multiple times and keep all the figures and data each time without loosing the previous ones, you can call the ```save_all``` function with the ```timestamp``` option:
