@@ -94,16 +94,16 @@ nq.save_all()
 ```
 will produce the following images:
 <p align="center">
-  <img width="460" height="300" src="https://raw.githubusercontent.com/SengerM/nicenquickplotlib/master/doc/figstyle_doc/img/plot1.png">
+  <img width="460" src="https://raw.githubusercontent.com/SengerM/nicenquickplotlib/master/doc/figstyle_doc/img/plot1.png">
 </p>
 <p align="center">
-  <img width="460" height="300" src="https://raw.githubusercontent.com/SengerM/nicenquickplotlib/master/doc/figstyle_doc/img/plot2.png">
+  <img width="460" src="https://raw.githubusercontent.com/SengerM/nicenquickplotlib/master/doc/figstyle_doc/img/plot2.png">
 </p>
 <p align="center">
-  <img width="460" height="300" src="https://raw.githubusercontent.com/SengerM/nicenquickplotlib/master/doc/figstyle_doc/img/plot3.png">
+  <img width="460" src="https://raw.githubusercontent.com/SengerM/nicenquickplotlib/master/doc/figstyle_doc/img/plot3.png">
 </p>
 <p align="center">
-  <img width="460" height="300" src="https://raw.githubusercontent.com/SengerM/nicenquickplotlib/master/doc/figstyle_doc/img/plot4.png">
+  <img width="460" src="https://raw.githubusercontent.com/SengerM/nicenquickplotlib/master/doc/figstyle_doc/img/plot4.png">
 </p>
 ### Use the timestamp
 If you want to run your code multiple times and keep all the figures and data each time without loosing the previous ones, you can call the ```save_all``` function with the ```timestamp``` option:
