@@ -92,8 +92,11 @@ nq.plot(x, [np.sin(x[0]), np.cos(x[1]), np.sqrt(x[2])], legend=[r'$\sin(x)$', r'
 
 nq.save_all()
 ```
-will produce the following files:ASDASDASDASDASDS
-
+will produce the following images:
+![Using default figstyle](https://raw.githubusercontent.com/SengerM/nicenquickplotlib/master/doc/figstyle_doc/img/plot1.png | width=100)
+![Using blacknwhite figstyle](https://raw.githubusercontent.com/SengerM/nicenquickplotlib/master/doc/figstyle_doc/img/plot2.png | width=100)
+![Using soft figstyle](https://raw.githubusercontent.com/SengerM/nicenquickplotlib/master/doc/figstyle_doc/img/plot3.png | width=100)
+![Using user defined figstyle](https://raw.githubusercontent.com/SengerM/nicenquickplotlib/master/doc/figstyle_doc/img/plot4.png | width=100)
 ### Use the timestamp
 If you want to run your code multiple times and keep all the figures and data each time without loosing the previous ones, you can call the ```save_all``` function with the ```timestamp``` option:
 ```Python
