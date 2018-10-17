@@ -93,7 +93,10 @@ nq.plot(x, [np.sin(x[0]), np.cos(x[1]), np.sqrt(x[2])], legend=[r'$\sin(x)$', r'
 nq.save_all()
 ```
 will produce the following images:
-![Using default figstyle](https://raw.githubusercontent.com/SengerM/nicenquickplotlib/master/doc/figstyle_doc/img/plot1.png | width=100)
+<p align="center">
+  <img width="460" height="300" src="https://raw.githubusercontent.com/SengerM/nicenquickplotlib/master/doc/figstyle_doc/img/plot1.png">
+</p>
+
 ![Using blacknwhite figstyle](https://raw.githubusercontent.com/SengerM/nicenquickplotlib/master/doc/figstyle_doc/img/plot2.png | width=100)
 ![Using soft figstyle](https://raw.githubusercontent.com/SengerM/nicenquickplotlib/master/doc/figstyle_doc/img/plot3.png | width=100)
 ![Using user defined figstyle](https://raw.githubusercontent.com/SengerM/nicenquickplotlib/master/doc/figstyle_doc/img/plot4.png | width=100)
