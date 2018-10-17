@@ -36,8 +36,8 @@ def set_figstyle(figstyle):
 		__figstyle = FigStyle(__nq_instalation_path + '/figure_styles/' + 'blacknwhite.yaml')
 	elif figstyle is 'soft':
 		__figstyle = FigStyle(__nq_instalation_path + '/figure_styles/' + 'soft.yaml')
-	else:
-		raise ValueError('Not yet implemented!')
+	else: # Load user figstyle file.
+		__figstyle = FigStyle(figstyle)
 
 set_figstyle('default')
 
