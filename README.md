@@ -16,6 +16,16 @@ pip install git+https://github.com/SengerM/nicenquickplotlib.git
 ```
 pip3 install git+https://github.com/SengerM/nicenquickplotlib.git
 ```
+Once it is installed you can test it running the following script:
+```Python
+import numpy as np
+import nicenquickplotlib as nq
+x = np.linspace(0,6)
+nq.plot(x, [np.sin(x), np.sqrt(x), np.cos(x)])
+nq.plot(x, x**2)
+nq.save_all()
+```
+As a result a directory must be created inside the current working directory with the two figures as png files.
 
 ## Usage
 You have to worry about nothing but plot. Just call the ```plot``` function N times and then call the ```save_all``` function:
@@ -60,17 +70,30 @@ plot(xdata_np, y_list) # This should work because y_list is a list of numpy arra
 plot(xdata_np, y_wrong) # This should not work.
 plot(xdata_np, [[1,2,3,4],[1,3,5,7]]) # This should not work because y data is a list of lists.
 ```
-### Change the default plotting style
+### Change the figstyle
+The *figstyle* contains some global parameters that define how your plots will look like. You can chose between any of the preset figstyles included with *nicenquickplotlib* or you can define your own figstyle to customize all your plots. The following code 
 ```Python
 import numpy as np
 import nicenquickplotlib as nq
-x = np.linspace(0,6)
+
+x = []
+x.append(np.linspace(0,6))
+x.append(np.linspace(0,5))
+x.append(np.linspace(0,4))
+
+nq.set_figstyle('default') # This is not necesary.
+nq.plot(x, [np.sin(x[0]), np.cos(x[1]), np.sqrt(x[2])], legend=[r'$\sin(x)$', r'$\cos(x)$', r'$\sqrt{x}$'], xlabel='x label', ylabel='y label')
 nq.set_figstyle('blacknwhite')
-nq.plot(x, [np.sin(x), np.sqrt(x), np.cos(x)]) # This will be plotted using the 'blacknwhite' figstyle.
-nq.set_figstyle('default')
-nq.plot(x, [np.sin(x), np.sqrt(x), np.cos(x)]) # This will be plotted using the 'default' figstyle.
+nq.plot(x, [np.sin(x[0]), np.cos(x[1]), np.sqrt(x[2])], legend=[r'$\sin(x)$', r'$\cos(x)$', r'$\sqrt{x}$'], xlabel='x label', ylabel='y label')
+nq.set_figstyle('soft')
+nq.plot(x, [np.sin(x[0]), np.cos(x[1]), np.sqrt(x[2])], legend=[r'$\sin(x)$', r'$\cos(x)$', r'$\sqrt{x}$'], xlabel='x label', ylabel='y label')
+nq.set_figstyle('my_figstyle.yaml') # User defined figstyle.
+nq.plot(x, [np.sin(x[0]), np.cos(x[1]), np.sqrt(x[2])], legend=[r'$\sin(x)$', r'$\cos(x)$', r'$\sqrt{x}$'], xlabel='x label', ylabel='y label')
+
 nq.save_all()
 ```
+will produce the following files:ASDASDASDASDASDS
+
 ### Use the timestamp
 If you want to run your code multiple times and keep all the figures and data each time without loosing the previous ones, you can call the ```save_all``` function with the ```timestamp``` option:
 ```Python
