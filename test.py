@@ -10,6 +10,7 @@ nq.set_figstyle('default')
 nq.plot(x, [np.sin(x[0]), np.cos(x[1]), np.sqrt(x[2])], legend=[r'$\sin(x)$', r'$\cos(x)$', r'$\sqrt{x}$'], xlabel='x label', ylabel='y label')
 nq.set_figstyle('blacknwhite')
 nq.plot(x, [np.sin(x[0]), np.cos(x[1]), np.sqrt(x[2])], legend=[r'$\sin(x)$', r'$\cos(x)$', r'$\sqrt{x}$'], xlabel='x label', ylabel='y label')
+nq.set_figstyle('soft')
+nq.plot(x, [np.sin(x[0]), np.cos(x[1]), np.sqrt(x[2])], legend=[r'$\sin(x)$', r'$\cos(x)$', r'$\sqrt{x}$'], xlabel='x label', ylabel='y label')
 
-nq.default_file_format = 'pdf' # THIS DOESN'T WORK!
 nq.save_all()
