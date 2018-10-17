@@ -272,7 +272,7 @@ def save_all(timestamp=False, mkdir='figures', csv=False, image_format='png'):
 		directory += __session_timestamp
 	elif timestamp is 'now':
 		directory += ts.get_timestamp()
-	else:
+	elif timestamp is not False:
 		raise ValueError('Wrong value for the timestamp argument')
 	if not os.path.exists(directory):
 		os.makedirs(directory)
