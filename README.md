@@ -93,6 +93,7 @@ nq.plot(x, [np.sin(x[0]), np.cos(x[1]), np.sqrt(x[2])], legend=[r'$\sin(x)$', r'
 nq.save_all()
 ```
 will produce the following images:
+
 <p align="center">
   <img width="460" src="https://raw.githubusercontent.com/SengerM/nicenquickplotlib/master/doc/figstyle_doc/img/plot1.png">
 </p>
@@ -105,6 +106,9 @@ will produce the following images:
 <p align="center">
   <img width="460" src="https://raw.githubusercontent.com/SengerM/nicenquickplotlib/master/doc/figstyle_doc/img/plot4.png">
 </p>
+
+If you want to define your own figstyle you have to create a [YAML](https://en.wikipedia.org/wiki/YAML) file. It is very easy. You can use the template from [this example](https://github.com/SengerM/nicenquickplotlib/tree/master/doc/figstyle_doc).
+
 ### Use the timestamp
 If you want to run your code multiple times and keep all the figures and data each time without loosing the previous ones, you can call the ```save_all``` function with the ```timestamp``` option:
 ```Python
@@ -114,6 +118,7 @@ x = np.linspace(0,6)
 nq.plot(x, [np.sin(x), np.sqrt(x), np.cos(x)])
 nq.save_all(timestamp=True) # or timestamp='now' if you are using Spyder or a similar program.
 ```
+The ```timestamp=True``` option uses a timestamp generated at the moment you import the *nicenquickplotlib*. The ```timestamp='now'``` option creates a new timestamp at the moment you call the ```save_all``` function.
 ### Image file format
 Change the default (png) file format for saving the images. Any of the formats supported by the [savefig](https://matplotlib.org/api/_as_gen/matplotlib.pyplot.savefig.html) function is supported.
 ```Python
