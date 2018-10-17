@@ -20,7 +20,8 @@ def set_figstyle(figstyle):
 	Parameters
 	----------
 	figstyle : string
-		Specifies which figstyle file to load.
+		Specifies which figstyle file to load. Factory presets can be
+		chosen: 'default', 'blacknwhite', 'soft'.
 	
 	Examples
 	-------
@@ -33,8 +34,10 @@ def set_figstyle(figstyle):
 		__figstyle = FigStyle(__nq_instalation_path + '/figure_styles/' + 'default.yaml')
 	elif figstyle is 'blacknwhite':
 		__figstyle = FigStyle(__nq_instalation_path + '/figure_styles/' + 'blacknwhite.yaml')
-	else:
-		raise ValueError('Not yet implemented!')
+	elif figstyle is 'soft':
+		__figstyle = FigStyle(__nq_instalation_path + '/figure_styles/' + 'soft.yaml')
+	else: # Load user figstyle file.
+		__figstyle = FigStyle(figstyle)
 
 set_figstyle('default')
 

@@ -1,26 +1,19 @@
 # figstyle default
 
-main_color: '#000000' # This color is used for axes, labels, titles, etc.
+main_color: '#0000ff' # This color is used for axes, labels, titles, etc.
 
 width: 160e-3 # Figures width in meters.
 
 ratio: # x,y ratio of the figures.
  - 1
- - .6
+ - .4
 
 hspace: .1 # Vertical separation between subplots when using "together=False".
 
 colors: # to be used (cyclically) when plotting data.
- - '#ffa366'
- - '#80bfff'
- - '#79bb4d'
- - '#ff99cc'
- - '#8585ad'
- - '#cccc00'
- - '#00802b'
+ - '#000000'
  - '#ff0000'
- - '#0000aa'
- - '#ff00ff'
+ - '#0000ff'
 
 markers: # to be used (cyclically) when plotting data.
  - '.'
@@ -29,3 +22,9 @@ markers: # to be used (cyclically) when plotting data.
  - 'X'
  - '^'
  - 'D'
+
+linestyles:
+ - '-'
+ - '--'
+ - '-.'
+ - ':'

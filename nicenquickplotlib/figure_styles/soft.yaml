@@ -1,6 +1,6 @@
 # figstyle default
 
-main_color: '#000000' # This color is used for axes, labels, titles, etc.
+main_color: '#888888' # This color is used for axes, labels, titles, etc.
 
 width: 160e-3 # Figures width in meters.
 
