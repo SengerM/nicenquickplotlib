@@ -95,19 +95,19 @@ nq.save_all()
 will produce the following images:
 
 <p align="center">
-  <img width="460" src="https://raw.githubusercontent.com/SengerM/nicenquickplotlib/master/doc/figstyle_doc/img/plot1.png">
+  <img width="460" src="https://raw.githubusercontent.com/SengerM/nicenquickplotlib/master/doc/figstyle_doc/figures/plot1.png">
 </p>
 <p align="center">
-  <img width="460" src="https://raw.githubusercontent.com/SengerM/nicenquickplotlib/master/doc/figstyle_doc/img/plot2.png">
+  <img width="460" src="https://raw.githubusercontent.com/SengerM/nicenquickplotlib/master/doc/figstyle_doc/figures/plot2.png">
 </p>
 <p align="center">
-  <img width="460" src="https://raw.githubusercontent.com/SengerM/nicenquickplotlib/master/doc/figstyle_doc/img/plot3.png">
+  <img width="460" src="https://raw.githubusercontent.com/SengerM/nicenquickplotlib/master/doc/figstyle_doc/figures/plot3.png">
 </p>
 <p align="center">
-  <img width="460" src="https://raw.githubusercontent.com/SengerM/nicenquickplotlib/master/doc/figstyle_doc/img/plot4.png">
+  <img width="460" src="https://raw.githubusercontent.com/SengerM/nicenquickplotlib/master/doc/figstyle_doc/figures/plot4.png">
 </p>
 
-If you want to define your own figstyle you have to create a [YAML](https://en.wikipedia.org/wiki/YAML) file. It is very easy. You can use the template from [this example](https://github.com/SengerM/nicenquickplotlib/tree/master/doc/figstyle_doc). Once you have selected a figstyle, all your plots will use it.
+If you want to define your own *figstyle* you just have to create a [YAML](https://en.wikipedia.org/wiki/YAML) file. It is very easy. You can use the template from [this example](https://github.com/SengerM/nicenquickplotlib/tree/master/doc/figstyle_doc) or any of the [factory figstyles](https://github.com/SengerM/nicenquickplotlib/tree/master/nicenquickplotlib/figure_styles) that come with *nicenquickplotlib*. Once you have selected a figstyle, all your plots will use it.
 
 ### Use the timestamp
 If you want to run your code multiple times and keep all the figures and data each time without loosing the previous ones, you can call the ```save_all``` function with the ```timestamp``` option:
