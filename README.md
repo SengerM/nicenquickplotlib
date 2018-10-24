@@ -182,6 +182,50 @@ nq.plot(x, np.sqrt(x), xscale='L', marker='.') # Log scale for x axis.
 nq.plot(x, np.sqrt(x), xscale='L', yscale='L', marker='.') # Log scale on both axes.
 nq.save_all()
 ```
+#### The ```save_all``` function
+Its name says it all. This function saves all the plots you have made using the ```plot``` function. You can find the source code and documentation in [this link](https://github.com/SengerM/nicenquickplotlib/blob/master/nicenquickplotlib/nq_user_functions.py).
+Example 1. Just save all your plots:
+```Python
+import numpy as np
+import nicenquickplotlib as nq
+for k in range(10):
+	nq.plot(np.linspace(0,2)**k)
+nq.save_all() # Wow, you can save the 10 figures that easy!?
+```
+Example 2. Use a timestamp in order to not override your old plots. If you request to ```save_all``` the usage of a timestamp, then it will create a new directory with a unique timestamp and the figures will be saved there. I you run the script multiple times the plots saved each time in a new directory. Code:
+```Python
+import numpy as np
+import nicenquickplotlib as nq
+nq.plot(np.linspace(0,2)**2)
+nq.plot(np.linspace(0,2)**3)
+nq.save_all(timestamp=True) # Use timestamp generated when 'import nicenquickplotlib as nq'
+nq.save_all(timestamp='now') # Use a timestamp generated right now.
+```
+Example 3. Use your custom directory:
+```Python
+import numpy as np
+import nicenquickplotlib as nq
+nq.plot(np.linspace(0,2)**2)
+nq.plot(np.linspace(0,2)**3)
+nq.save_all(mkdir='i like this directory')
+```
+Example 4. Save the plotted data as csv files:
+```Python
+import numpy as np
+import nicenquickplotlib as nq
+nq.plot(np.linspace(0,2)**2)
+nq.plot(np.linspace(0,2)**3)
+nq.save_all(csv=True) # Wow, this is amazingly awesome!
+```
+Example 5. Change the default image format. You can use any of the formats specified [here](https://matplotlib.org/api/_as_gen/matplotlib.pyplot.savefig.html). Example code:
+```Python
+import numpy as np
+import nicenquickplotlib as nq
+nq.plot(np.linspace(0,2)**2)
+nq.plot(np.linspace(0,2)**3)
+nq.save_all(image_format='pdf')
+```
+
 ### Accessing to the matplotlib original objects
 If by some reason you want to tune your plot using the matplotlib's methods, you can access to the ```fig``` and ```ax``` objects as follows:
 ```Python
