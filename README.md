@@ -131,13 +131,12 @@ will produce the following images:
 If you want to define your own *figstyle* you just have to create a [YAML](https://en.wikipedia.org/wiki/YAML) file. It is very easy. You can use the template from [this example](https://github.com/SengerM/nicenquickplotlib/tree/master/doc/figstyle_doc) or any of the [factory figstyles](https://github.com/SengerM/nicenquickplotlib/tree/master/nicenquickplotlib/figure_styles) that come with *nicenquickplotlib*. Once you have selected a figstyle, all your plots will use it.
 
 ### Functions you can use
-Below there is a list and documentation of the functions you can use to produce *nice and quick plots*. 
+Below there is a list and some documentation of the functions you can use to produce *nice and quick plots*. 
 
-#### The plot function
+#### The ```plot``` function
 The ```plot``` and ```save_all``` functions are the main (and usually the only) functions you have to call. You can see the source code of this function and its documentation in the file in [this link](https://github.com/SengerM/nicenquickplotlib/blob/master/nicenquickplotlib/nq_user_functions.py). The usage is very intuitive, you must pass the 'x' and 'y' data as numpy arrays. If you want to plot multiple data sets, you must provide to the plot function a list of numpy arrays containing each data set. 
 Each time you call the ```plot``` function a figure is created and tracked internally by the *nicenquickplot* package. After you have made all your plots you just call once the ```save_all``` function and all your plots will be saved to files.
-##### Examples with plot function
-Example 1. Worry about nothing but to plot:
+- ```plot``` example 1. Worry about nothing but to plot:
 ```Python
 import numpy as np
 import nicenquickplotlib as nq
@@ -151,7 +150,7 @@ y_data_list = [np.sqrt(x_data_list[0]), np.cos(x_data_list[1]), np.sin(x_data_li
 nq.plot(x_data_list, y_data_list)
 nq.save_all() # Save all your plots!
 ```
-Example 2. Add labels and indications:
+- ```plot``` example 2. Add labels and indications:
 ```Python
 import numpy as np
 import nicenquickplotlib as nq
@@ -161,7 +160,7 @@ labels = ['Signal 1', 'Signal 2']
 nq.plot(x, y_data_sets, legend=labels, xlabel='Time (s)', ylabel='Amplitude (V)', title="I'll win the Nobel prize with this work")
 nq.save_all()
 ```
-Example 3. Use subplots:
+- ```plot``` example 3. Use subplots:
 ```Python
 import numpy as np
 import nicenquickplotlib as nq
@@ -172,7 +171,7 @@ nq.plot(x, y_data_sets, legend=labels, xlabel='Time (s)', ylabel='Amplitude (V)'
 nq.plot(x, y_data_sets, legend=labels, xlabel='Time (s)', ylabel='Amplitude (V)', together=False) # Each data set is plotted in a new chart.
 nq.save_all()
 ```
-Example 4. Use logarithmic scales:
+- ```plot``` example 4. Use logarithmic scales:
 ```Python
 import numpy as np
 import nicenquickplotlib as nq
@@ -184,7 +183,7 @@ nq.save_all()
 ```
 #### The ```save_all``` function
 Its name says it all. This function saves all the plots you have made using the ```plot``` function. You can find the source code and documentation in [this link](https://github.com/SengerM/nicenquickplotlib/blob/master/nicenquickplotlib/nq_user_functions.py).
-Example 1. Just save all your plots:
+- ```save_all``` example 1. Just save all your plots:
 ```Python
 import numpy as np
 import nicenquickplotlib as nq
@@ -192,7 +191,7 @@ for k in range(10):
 	nq.plot(np.linspace(0,2)**k)
 nq.save_all() # Wow, you can save the 10 figures that easy!?
 ```
-Example 2. Use a timestamp in order to not override your old plots. If you request to ```save_all``` the usage of a timestamp, then it will create a new directory with a unique timestamp and the figures will be saved there. I you run the script multiple times the plots saved each time in a new directory. Code:
+- ```save_all``` example 2. Use a timestamp in order to not override your old plots. If you request to ```save_all``` the usage of a timestamp, then it will create a new directory with a unique timestamp and the figures will be saved there. I you run the script multiple times the plots saved each time in a new directory. Code:
 ```Python
 import numpy as np
 import nicenquickplotlib as nq
@@ -201,7 +200,7 @@ nq.plot(np.linspace(0,2)**3)
 nq.save_all(timestamp=True) # Use timestamp generated when 'import nicenquickplotlib as nq'
 nq.save_all(timestamp='now') # Use a timestamp generated right now.
 ```
-Example 3. Use your custom directory:
+- ```save_all``` example 3. Use your custom directory:
 ```Python
 import numpy as np
 import nicenquickplotlib as nq
@@ -209,7 +208,7 @@ nq.plot(np.linspace(0,2)**2)
 nq.plot(np.linspace(0,2)**3)
 nq.save_all(mkdir='i like this directory')
 ```
-Example 4. Save the plotted data as csv files:
+- ```save_all``` example 4. Save the plotted data as csv files:
 ```Python
 import numpy as np
 import nicenquickplotlib as nq
@@ -217,7 +216,7 @@ nq.plot(np.linspace(0,2)**2)
 nq.plot(np.linspace(0,2)**3)
 nq.save_all(csv=True) # Wow, this is amazingly awesome!
 ```
-Example 5. Change the default image format. You can use any of the formats specified [here](https://matplotlib.org/api/_as_gen/matplotlib.pyplot.savefig.html). Example code:
+- ```save_all``` example 5. Change the default image format. You can use any of the formats specified [here](https://matplotlib.org/api/_as_gen/matplotlib.pyplot.savefig.html). Example code:
 ```Python
 import numpy as np
 import nicenquickplotlib as nq
