@@ -28,7 +28,7 @@ nq.save_all()
 As a result a directory must be created inside the current working directory with the two figures as png files.
 
 ## Usage
-You have to worry about nothing but plot. Just call the ```plot``` function N times and then call the ```save_all``` function:
+You have to worry about nothing but to plot your data. Just call the ```plot``` function N times and in the end call the ```save_all``` function:
 ```Python
 import numpy as np
 import nicenquickplotlib as nq
@@ -70,6 +70,27 @@ plot(xdata_np, y_list) # This should work because y_list is a list of numpy arra
 plot(xdata_np, y_wrong) # This should not work.
 plot(xdata_np, [[1,2,3,4],[1,3,5,7]]) # This should not work because y data is a list of lists.
 ```
+
+### Use the timestamp
+If you want to run your code multiple times and keep all the figures and data each time without loosing the previous ones, you can call the ```save_all``` function with the ```timestamp``` option:
+```Python
+import numpy as np
+import nicenquickplotlib as nq
+x = np.linspace(0,6)
+nq.plot(x, [np.sin(x), np.sqrt(x), np.cos(x)])
+nq.save_all(timestamp=True) # or timestamp='now' if you are using Spyder or a similar program.
+```
+The ```timestamp=True``` option uses a timestamp generated at the moment you import the *nicenquickplotlib*. The ```timestamp='now'``` option creates a new timestamp at the moment you call the ```save_all``` function.
+
+### Image file format
+Change the default (png) file format for saving the images. Any of the formats supported by the [savefig](https://matplotlib.org/api/_as_gen/matplotlib.pyplot.savefig.html) function is supported.
+```Python
+import numpy as np
+import nicenquickplotlib as nq
+x = np.linspace(0,6)
+nq.plot(x, [np.sin(x), np.sqrt(x), np.cos(x)])
+nq.save_all(image_format='pdf')
+```
 ### Change the figstyle
 The *figstyle* contains some global parameters that define how your plots will look like. You can chose between any of the preset figstyles included with *nicenquickplotlib* or you can define your own figstyle to customize all your plots. The following code 
 ```Python
@@ -109,25 +130,72 @@ will produce the following images:
 
 If you want to define your own *figstyle* you just have to create a [YAML](https://en.wikipedia.org/wiki/YAML) file. It is very easy. You can use the template from [this example](https://github.com/SengerM/nicenquickplotlib/tree/master/doc/figstyle_doc) or any of the [factory figstyles](https://github.com/SengerM/nicenquickplotlib/tree/master/nicenquickplotlib/figure_styles) that come with *nicenquickplotlib*. Once you have selected a figstyle, all your plots will use it.
 
-### Use the timestamp
-If you want to run your code multiple times and keep all the figures and data each time without loosing the previous ones, you can call the ```save_all``` function with the ```timestamp``` option:
+### Functions you can use
+Below there is a list and documentation of the functions you can use to produce *nice and quick plots*. 
+
+#### The plot function
+The ```plot``` and ```save_all``` functions are the main (and usually the only) functions you have to call. You can see the source code of this function and its documentation in the file in [this link](https://github.com/SengerM/nicenquickplotlib/blob/master/nicenquickplotlib/nq_user_functions.py). The usage is very intuitive, you must pass the 'x' and 'y' data as numpy arrays. If you want to plot multiple data sets, you must provide to the plot function a list of numpy arrays containing each data set. 
+Each time you call the ```plot``` function a figure is created and tracked internally by the *nicenquickplot* package. After you have made all your plots you just call once the ```save_all``` function and all your plots will be saved to files.
+##### Examples with plot function
+Example 1. Worry about nothing but to plot:
 ```Python
 import numpy as np
 import nicenquickplotlib as nq
-x = np.linspace(0,6)
-nq.plot(x, [np.sin(x), np.sqrt(x), np.cos(x)])
-nq.save_all(timestamp=True) # or timestamp='now' if you are using Spyder or a similar program.
+x = np.linspace(0,3.14) # Create some data.
+nq.plot(x, np.sin(x)) # This will be saved as plot 1.
+nq.plot(np.sin(x)) # This will be saved as plot 2.
+nq.plot(x, [np.sin(x), np.cos(x)]) # ... plot 3.
+nq.plot([np.sin(x), np.cos(x)]) # plot 4.
+x_data_list = [x, np.linspace(1,2), np.linspace(3,4)] # Create data.
+y_data_list = [np.sqrt(x_data_list[0]), np.cos(x_data_list[1]), np.sin(x_data_list[2])] # Create data.
+nq.plot(x_data_list, y_data_list)
+nq.save_all() # Save all your plots!
 ```
-The ```timestamp=True``` option uses a timestamp generated at the moment you import the *nicenquickplotlib*. The ```timestamp='now'``` option creates a new timestamp at the moment you call the ```save_all``` function.
-### Image file format
-Change the default (png) file format for saving the images. Any of the formats supported by the [savefig](https://matplotlib.org/api/_as_gen/matplotlib.pyplot.savefig.html) function is supported.
+Example 2. Add labels and indications:
 ```Python
 import numpy as np
 import nicenquickplotlib as nq
-x = np.linspace(0,6)
-nq.plot(x, [np.sin(x), np.sqrt(x), np.cos(x)])
-nq.save_all(image_format='pdf')
+x = np.linspace(0,3.14) # Create some data.
+y_data_sets = [np.sin(x), np.cos(x)]
+labels = ['Signal 1', 'Signal 2']
+nq.plot(x, y_data_sets, legend=labels, xlabel='Time (s)', ylabel='Amplitude (V)', title="I'll win the Nobel prize with this work")
+nq.save_all()
 ```
+Example 3. Use subplots:
+```Python
+import numpy as np
+import nicenquickplotlib as nq
+x = np.linspace(0,3.14) # Create some data.
+y_data_sets = [np.sin(x), np.cos(x)]
+labels = ['Signal 1', 'Signal 2']
+nq.plot(x, y_data_sets, legend=labels, xlabel='Time (s)', ylabel='Amplitude (V)', together=True) # All plots in the same chart (default).
+nq.plot(x, y_data_sets, legend=labels, xlabel='Time (s)', ylabel='Amplitude (V)', together=False) # Each data set is plotted in a new chart.
+nq.save_all()
+```
+Example 4. Use logarithmic scales:
+```Python
+import numpy as np
+import nicenquickplotlib as nq
+x = np.logspace(0,2) # Create some data.
+nq.plot(x, np.sqrt(x), xscale='l', marker='.') # Linear scale on both axes, default.
+nq.plot(x, np.sqrt(x), xscale='L', marker='.') # Log scale for x axis.
+nq.plot(x, np.sqrt(x), xscale='L', yscale='L', marker='.') # Log scale on both axes.
+nq.save_all()
+```
+### Accessing to the matplotlib original objects
+If by some reason you want to tune your plot using the matplotlib's methods, you can access to the ```fig``` and ```ax``` objects as follows:
+```Python
+import numpy as np
+import nicenquickplotlib as nq
+x = np.linspace(0,3.14) # Create some data.
+figure = nq.plot(x, [np.sqrt(x), np.sin(x)], together=False)
+figure.axes[-1].set_xlabel('Distance in mega parsec')
+figure.axes[0].set_ylabel('Density')
+figure.axes[1].set_ylabel('Potential')
+figure.fig.suptitle('Cosmic study')
+nq.save_all()
+```
+In ```figure.axes``` there is a list containing each of the matplotlib's ```ax``` objects. In ```figure.fig``` you can find the matplotlib's ```fig``` object.
 ## Future plans
 - Include plotting with error bars in a *nice and quick approach*.
 - Implement the custom user preset feauture so you can configure your plots as you like in a *nice and quick approach*.
