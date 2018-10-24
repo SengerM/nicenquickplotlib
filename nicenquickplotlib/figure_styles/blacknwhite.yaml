@@ -1,23 +1,25 @@
 # figstyle blacknwhite
 
-width: 160e-3
+main_color: '#000000'
 
-ratio:
+width: 140e-3 # Figures width in meters.
+
+ratio: # x,y ratio of the figures.
  - 1
- - .6
+ - .5
 
-hspace: .1
+hspace: .1 # Vertical separation between subplots when using "together=False".
 
-colors:
+colors: # The only color for the blacknwhite figstyle is black.
  - '#000000'
 
-linestyles:
+linestyles: # Different linestyles.
  - '-'
  - '--'
  - '-.'
  - ':'
 
-markers:
+markers: # Different markers.
  - '.'
  - 's'
  - 'p'
