@@ -47,7 +47,7 @@ nq.plot(x1, [np.sin(x1), np.sqrt(x1), np.cos(x1)], ylabel=['Label 1','Label 2', 
 nq.save_all(csv=True, timestamp='now') # Wow! You can save all your plots (and csv data files) with just one line! This is amazing!
 nq.show()
 ```
-See also the "test_all_all.py" file.
+See also the [test_all_all.py](https://github.com/SengerM/nicenquickplotlib/blob/master/test_all_all.py) file for some examples.
 
 ### Important usage tips
 
