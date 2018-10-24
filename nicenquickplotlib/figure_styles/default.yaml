@@ -2,11 +2,11 @@
 
 main_color: '#000000' # This color is used for axes, labels, titles, etc.
 
-width: 160e-3 # Figures width in meters.
+width: 140e-3 # Figures width in meters.
 
 ratio: # x,y ratio of the figures.
  - 1
- - .6
+ - .5
 
 hspace: .1 # Vertical separation between subplots when using "together=False".
 
