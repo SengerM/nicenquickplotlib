@@ -145,9 +145,9 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 	# because I need it right now (December 2018) but should be implemented
 	# in a better way in the future.
 	if isinstance(xx[0][0], numbers.Number) and isinstance(yy[0][0], unc.UFloat):
-		current_fig = __plot_yerr(xx, yy, xlabel=None, ylabel=None, legend=None, title=None, 
-			together=True, xscale='', yscale='', linestyle=None, color=None, 
-			marker=None, alpha=0.15, *args, **kwargs)
+		current_fig = __plot_yerr(xx, yy, xlabel, ylabel, legend=legend, title=title, 
+			together=together, xscale=xscale, yscale=yscale, linestyle=linestyle, color=color, 
+			marker=marker, alpha=0.25, *args, **kwargs)
 		return current_fig
 	# Here end the previous NOTE ---------------------------------------
 	
@@ -323,7 +323,7 @@ def save_all(timestamp=False, mkdir='figures', csv=False, image_format='png'):
 
 def __plot_yerr(xx, yy, xlabel=None, ylabel=None, legend=None, title=None, 
 	together=True, xscale='', yscale='', linestyle=None, color=None, 
-	marker=None, alpha=0.15, *args, **kwargs):
+	marker=None, alpha=0.25, *args, **kwargs):
 	"""This is the function you have to use to produce a nice and quick 
 	plot with 'y' error bars.
 	
