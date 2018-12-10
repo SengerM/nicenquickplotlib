@@ -8,6 +8,7 @@ from .color_tools import hex2rgb
 from .color_tools import *
 import uncertainties as unc
 from uncertainties import unumpy as unp
+import numbers
 
 # Default values -------------------------------------------------------
 default_dpi_rasterization = 200 # Resolution for bitmap format.
@@ -135,7 +136,22 @@ def plot(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 	Figure
 		An instance of the Figure class.
 	"""
+	
 	xx,yy = __validate_data_and_generate_lists(x,y)
+	
+	# NOTE -------------------------------------------------------------
+	# The following is a "I have no time right now" implementation to 
+	# plot with 'y' error bars. This means that I have implemented this
+	# because I need it right now (December 2018) but should be implemented
+	# in a better way in the future.
+	if isinstance(xx[0][0], numbers.Number) and isinstance(yy[0][0], unc.UFloat):
+		current_fig = __plot_yerr(xx, yy, xlabel=None, ylabel=None, legend=None, title=None, 
+			together=True, xscale='', yscale='', linestyle=None, color=None, 
+			marker=None, alpha=0.15, *args, **kwargs)
+		return current_fig
+	# Here end the previous NOTE ---------------------------------------
+	
+	
 	# Create the matplotlib objects ------------------------------------
 	if together is False:
 		f, ax = plt.subplots(len(yy), sharex=True, figsize=(__figstyle.width*__figstyle.ratio[0]/25.4e-3, __figstyle.width*__figstyle.ratio[1]/25.4e-3))
@@ -295,46 +311,19 @@ def save_all(timestamp=False, mkdir='figures', csv=False, image_format='png'):
 		
 		if csv is True:
 			for l in range(len(__figs_list[k].ydata)):
-				np.savetxt(directory + '/' + file_name + '_' + 'dataset' + str(l+1) + '.csv', np.array([__figs_list[k].xdata[l],__figs_list[k].ydata[l]]).transpose(), header='x\ty')
+				if isinstance(__figs_list[k].xdata[0][0], numbers.Number) and isinstance(__figs_list[k].ydata[0][0], numbers.Number):
+					np.savetxt(directory + '/' + file_name + '_' + 'dataset' + str(l+1) + '.csv', np.array([__figs_list[k].xdata[l],__figs_list[k].ydata[l]]).transpose(), header='x\ty')
+				elif isinstance(__figs_list[k].xdata[0][0], numbers.Number) and isinstance(__figs_list[k].ydata[0][0], unc.UFloat):
+					x_vals = __figs_list[k].xdata[l]
+					y_vals = unp.nominal_values(__figs_list[k].ydata[l])
+					y_errs = unp.std_devs(__figs_list[k].ydata[l])
+					np.savetxt(directory + '/' + file_name + '_' + 'dataset' + str(l+1) + '.csv', np.array([x_vals, y_vals, y_errs]).transpose(), header='x\ty_vals\ty_errs')
+				else:
+					raise TypeError('Save CSV feauture not yet implemented for this data type')
 
-def __validate_data_and_generate_lists_for_plot_yerr(x, y=None):
-	"""
-	This function is used internally to validate the (x,y) input data.
-	Currently it is used only by the "plot" function.
-	"""
-	xx = []
-	yy = []
-	if y is None:
-		if isinstance(x, np.ndarray): # This means there is only one data set to plot. Otherwise I would expect a list of numpy arrays.
-			yy.append(x);
-		elif isinstance(x, list):
-			yy = x
-		for k in range(len(yy)):
-			xx.append(np.arange(len(yy[k])))
-	elif isinstance(y, np.ndarray):
-		if not isinstance(x, np.ndarray):
-			raise ValueError('I have received a numpy array with "y" data but "x" data is not a numpy array')
-		xx.append(x)
-		yy.append(y)
-	elif isinstance(y, list):
-		yy = y
-		if isinstance(x, list):
-			if len(y) != len(x):
-				raise ValueError('Different number of data sets received with "x" data and "y" data')
-			xx = x
-		if isinstance(x, np.ndarray):
-			for k in range(len(yy)):
-				xx.append(x)
-	else:
-		raise ValueError('"y" must be a numpy array with data, or a list containing numpy arrays')
-	for k in range(len(yy)):
-		if not isinstance(yy[k][0], unc.UFloat):
-			raise TypeError('Expected an array of "uncertainties.UFloat" type object')
-	return xx,yy
-
-def plot_yerr(x, y=None, xlabel=None, ylabel=None, legend=None, title=None, 
+def __plot_yerr(xx, yy, xlabel=None, ylabel=None, legend=None, title=None, 
 	together=True, xscale='', yscale='', linestyle=None, color=None, 
-	marker=None, alpha=0.25, *args, **kwargs):
+	marker=None, alpha=0.15, *args, **kwargs):
 	"""This is the function you have to use to produce a nice and quick 
 	plot with 'y' error bars.
 	
@@ -395,7 +384,6 @@ def plot_yerr(x, y=None, xlabel=None, ylabel=None, legend=None, title=None,
 	Figure
 		An instance of the Figure class.
 	"""
-	xx,yy = __validate_data_and_generate_lists_for_plot_yerr(x,y)
 	# Create the matplotlib objects ------------------------------------
 	if together is False:
 		f, ax = plt.subplots(len(yy), sharex=True, figsize=(__figstyle.width*__figstyle.ratio[0]/25.4e-3, __figstyle.width*__figstyle.ratio[1]/25.4e-3))
