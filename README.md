@@ -272,7 +272,3 @@ figure.fig.suptitle('Cosmic study')
 nq.save_all()
 ```
 In ```figure.axes``` there is a list containing each of the matplotlib's ```ax``` objects. In ```figure.fig``` you can find the matplotlib's ```fig``` object.
-## Future plans
-- Include plotting with error bars in a *nice and quick approach*.
-- Implement the custom user preset feauture so you can configure your plots as you like in a *nice and quick approach*.
-- Give support for plotting with measurement units (maybe using *pint* package) in a *nice and quick approach*.
