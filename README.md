@@ -164,10 +164,10 @@ As can be seen in the example, the ```plot``` function automatically recognizes 
 Currently (December 2018) this is the only support for plotting with error bars. You MUST use the [uncertainties](https://pythonhosted.org/uncertainties/index.html) package and this feauture is available only for the 'y' axis.
 
 ### Functions you can use
-Below there is a list and some documentation of the functions you can use to produce *nice and quick plots*. 
+The ```plot``` and ```save_all``` functions are the main (and usually the only) functions you have to call. The ```plot``` function is used to plot everything and the ```save_all``` function is used to... Save all! It saves all your plots in a directory, automatically. You don't have to worry to save each figure, the function does it all.
 
 #### The ```plot``` function
-The ```plot``` and ```save_all``` functions are the main (and usually the only) functions you have to call. You can see the source code of this function and its documentation in the file in [this link](https://github.com/SengerM/nicenquickplotlib/blob/master/nicenquickplotlib/nq_user_functions.py). The usage is very intuitive, you must pass the 'x' and 'y' data as numpy arrays. If you want to plot multiple data sets, you must provide to the plot function a list of numpy arrays containing each data set. 
+You can see the source code of this function and its documentation in the file in [this link](https://github.com/SengerM/nicenquickplotlib/blob/master/nicenquickplotlib/nq_user_functions.py). The usage is very intuitive, you must pass the 'x' and 'y' data as numpy arrays. If you want to plot multiple data sets, you must provide to the plot function a list of numpy arrays containing each data set. 
 Each time you call the ```plot``` function a figure is created and tracked internally by the *nicenquickplot* package. After you have made all your plots you just call once the ```save_all``` function and all your plots will be saved to files.
 - ```plot``` example 1. Worry about nothing but to plot:
 ```Python
