@@ -130,6 +130,39 @@ will produce the following images:
 
 If you want to define your own *figstyle* you just have to create a [YAML](https://en.wikipedia.org/wiki/YAML) file. It is very easy. You can use the template from [this example](https://github.com/SengerM/nicenquickplotlib/tree/master/doc/figstyle_doc) or any of the [factory figstyles](https://github.com/SengerM/nicenquickplotlib/tree/master/nicenquickplotlib/figure_styles) that come with *nicenquickplotlib*. Once you have selected a figstyle, all your plots will use it.
 
+### Plot with 'y' error bands
+Call the ```plot``` function and pass to it an array of "uncertainty type objects" (see the [uncertainties](https://pythonhosted.org/uncertainties/index.html) library) to produce plots with 'y' error bands (not bars, but bands). You can see an example in the documentation (see [this link](https://github.com/SengerM/nicenquickplotlib/tree/master/doc/y_error_bars)). The figures look like this:
+
+<p align="center">
+  <img width="460" src="https://github.com/SengerM/nicenquickplotlib/blob/master/doc/y_error_bars/figures/y_error_bands.png">
+</p>
+
+<p align="center">
+  <img width="460" src="https://github.com/SengerM/nicenquickplotlib/blob/master/doc/y_error_bars/figures/y_error_bands_with_blacknwhite_figstyle.png">
+</p>
+
+The code that produced those figures is
+```Python
+import nicenquickplotlib as nq
+import uncertainties as unc # https://pythonhosted.org/uncertainties/index.html
+import numpy as np
+
+x = np.linspace(0,2,10) # Create x data.
+y_vals_1 = x**2 # Create y_1 data.
+y_errs_1 = y_vals_1*0.1 + np.random.rand(len(x))*0.1 # Create y_1 errors.
+y_vals_2 = np.sqrt(x) # Create y_2 data.
+y_errs_2 = y_vals_2*0.1 + np.random.rand(len(x))*0.1 # Create y_2 errors.
+y_1 = unc.unumpy.uarray(y_vals_1, y_errs_1) # Create y_1 array of uncertainties.
+y_2 = unc.unumpy.uarray(y_vals_2, y_errs_2) # Create y_2 array of uncertainties.
+nq.plot(x, [y_1, y_2], title='y error bands', legend=['Data 1', 'Data 2'], marker=True)
+nq.set_figstyle('blacknwhite')
+nq.plot(x, [y_1, y_2], title='y error bands with blacknwhite figstyle', legend=['Data 1', 'Data 2'], marker=True)
+nq.save_all(csv=True)
+```
+
+As can be seen in the example, the ```plot``` function automatically recognizes the data type and produces a plot with error bands. If you have some code that has no uncertainties and you want to add them, you only have to cast the data from *numpy array* to *unumpy array* (see [this link](https://pythonhosted.org/uncertainties/numpy_guide.html) for documentation about uncertainties in arrays).
+Currently (December 2018) this is the only support for plotting with error bars. You MUST use the [uncertainties](https://pythonhosted.org/uncertainties/index.html) package and this feauture is available only for the 'y' axis.
+
 ### Functions you can use
 Below there is a list and some documentation of the functions you can use to produce *nice and quick plots*. 
 
